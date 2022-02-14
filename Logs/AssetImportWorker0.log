@@ -482,3 +482,118 @@ System memory in use after: 64.8 MB.
 Unloading 14 unused Assets to reduce memory usage. Loaded Objects now: 1874.
 Total: 1.650400 ms (FindLiveObjects: 0.164200 ms CreateObjectMapping: 0.031300 ms MarkObjects: 1.406800 ms  DeleteObjects: 0.047000 ms)
 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.002266 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.35 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.903 seconds
+Platform modules already initialized, skipping
+Shader 'Toon/Lit Outline': fallback shader 'Toon/Lit' not found
+WARNING: Shader Unsupported: 'Toon/Lit Outline' - All subshaders removed
+WARNING: Shader Did you use #pragma only_renderers and omit this platform?
+WARNING: Shader If subshaders removal was intentional, you may have forgotten turning Fallback off?
+WARNING: Shader Unsupported: 'Toon/Lit Outline' - All subshaders removed
+WARNING: Shader Did you use #pragma only_renderers and omit this platform?
+WARNING: Shader If subshaders removal was intentional, you may have forgotten turning Fallback off?
+Refreshing native plugins compatible for Editor in 0.54 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1509 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 82.7 MB.
+System memory in use after: 75.2 MB.
+
+Unloading 88 unused Assets to reduce memory usage. Loaded Objects now: 1932.
+Total: 4.196000 ms (FindLiveObjects: 0.221200 ms CreateObjectMapping: 0.043600 ms MarkObjects: 1.519900 ms  DeleteObjects: 2.409800 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 1603.588616 seconds.
+  path: Assets/_GhoulZombie/Black.mat
+  artifactKey: Guid(5cd795b281bbe8c4b9a49869782d03ee) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_GhoulZombie/Black.mat using Guid(5cd795b281bbe8c4b9a49869782d03ee) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '92f3df7b7ce74dfe238769afb35de035') in 0.305843 seconds
+  Import took 0.308168 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000171 seconds.
+  path: Assets/_GhoulZombie/Ghoul_Volume4_metalness.png
+  artifactKey: Guid(f7bd4adfab4d5844c8366c32947d5c97) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_GhoulZombie/Ghoul_Volume4_metalness.png using Guid(f7bd4adfab4d5844c8366c32947d5c97) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '03725026be7c10ca83be5a08dc74eefa') in 0.075497 seconds
+  Import took 0.077587 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000156 seconds.
+  path: Assets/_GhoulZombie/PPS_Ghoul.asset
+  artifactKey: Guid(01ea3b62903a0b4449c9b786c0ca6b8d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_GhoulZombie/PPS_Ghoul.asset using Guid(01ea3b62903a0b4449c9b786c0ca6b8d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '86d28e601494028ad19bbeb064ed4d1f') in 0.007405 seconds
+  Import took 0.009529 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000173 seconds.
+  path: Assets/_GhoulZombie/Ghoul_Volume4_nmap.png
+  artifactKey: Guid(a2d6e635b41117a4a95cf5f6b465717a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_GhoulZombie/Ghoul_Volume4_nmap.png using Guid(a2d6e635b41117a4a95cf5f6b465717a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e71c163b46ded5cb5952427a19db8e66') in 0.014574 seconds
+  Import took 0.016576 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000171 seconds.
+  path: Assets/_GhoulZombie/Ghoul_Volume4_gloss.png
+  artifactKey: Guid(047a953b8df09e64b97dd542316e9c9c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_GhoulZombie/Ghoul_Volume4_gloss.png using Guid(047a953b8df09e64b97dd542316e9c9c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '18c2a50ba4c12aa9d2e0b25c31d247e1') in 0.011167 seconds
+  Import took 0.013198 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000178 seconds.
+  path: Assets/_GhoulZombie/Ghoul_Volume4_emissive.png
+  artifactKey: Guid(d5f1f1cb4a703a044a11cf51d65faa5a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_GhoulZombie/Ghoul_Volume4_emissive.png using Guid(d5f1f1cb4a703a044a11cf51d65faa5a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '85bf7122c85c33d5643c049250a33836') in 0.009519 seconds
+  Import took 0.011546 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000172 seconds.
+  path: Assets/_GhoulZombie/Floor.mat
+  artifactKey: Guid(0d0901b97e99da84797b3b9b6f9ef2ea) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_GhoulZombie/Floor.mat using Guid(0d0901b97e99da84797b3b9b6f9ef2ea) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b4e3fc6e8b549db134504b8b774704d1') in 0.010459 seconds
+  Import took 0.012421 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000217 seconds.
+  path: Assets/_GhoulZombie/GhoulMaterial.mat
+  artifactKey: Guid(7e013ff2514571042a1ac03d3b6f9eef) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_GhoulZombie/GhoulMaterial.mat using Guid(7e013ff2514571042a1ac03d3b6f9eef) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a4317399ec54b1ea5f17b6243a600c6c') in 0.010392 seconds
+  Import took 0.012883 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000182 seconds.
+  path: Assets/_GhoulZombie/Ghoul_Volume4_color.png
+  artifactKey: Guid(7307144979bf7df459af1937d7a73ace) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_GhoulZombie/Ghoul_Volume4_color.png using Guid(7307144979bf7df459af1937d7a73ace) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6234e2989b634470e6ec2c3080ad9ed6') in 0.010650 seconds
+  Import took 0.012947 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000160 seconds.
+  path: Assets/_GhoulZombie/Ghoul.prefab
+  artifactKey: Guid(227ee07e9e5b7914ba8fbb8f430be9a5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_GhoulZombie/Ghoul.prefab using Guid(227ee07e9e5b7914ba8fbb8f430be9a5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c39af0ebcbf580a7be475a6fc3bb1a02') in 0.105976 seconds
+  Import took 0.108464 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000180 seconds.
+  path: Assets/_GhoulZombie/Ghoul@Animations.fbx
+  artifactKey: Guid(ce65fa103f0e84b4289374b2a4bf93f8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_GhoulZombie/Ghoul@Animations.fbx using Guid(ce65fa103f0e84b4289374b2a4bf93f8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a00ba7892cb7754be984787a33232bf1') in 0.058504 seconds
+  Import took 0.061068 seconds .
+
