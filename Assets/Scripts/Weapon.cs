@@ -44,7 +44,7 @@ public class Weapon : MonoBehaviour
             return false;
     }
 
-public void Shoot()
+    public void Shoot()
     {
         if(weaponData.currentAmmo > 0)
         {
@@ -53,7 +53,7 @@ public void Shoot()
                 if(Physics.Raycast(firingPoint.position, firingPoint.forward, out RaycastHit hitInfo, weaponData.maxDistance))
                 {
                     IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
-                    damageable?.Damage(weaponData.damage);
+                    damageable?.TakeDamage(weaponData.damage);
                     shootingFSX.Play();
                 }
                 weaponData.currentAmmo--;

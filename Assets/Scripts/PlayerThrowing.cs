@@ -6,8 +6,9 @@ public class PlayerThrowing : MonoBehaviour
 {
     [Header("References")]
 
-    public Transform camera;
+    public Camera camera;
     public Transform throwPoint;
+
     public GameObject throwableObject;
 
     [Header("Settings")]
@@ -36,20 +37,22 @@ public class PlayerThrowing : MonoBehaviour
         canThrow = false;
 
         //This part instantiates the throwable object
-        GameObject projectile = Instantiate(throwableObject,throwPoint.position,camera.rotation);
+        GameObject projectile = Instantiate(throwableObject,throwPoint.position,camera.transform.rotation);
 
         // Physics
         Rigidbody projectileRb = projectile.GetComponent<Rigidbody>(); // Gets the throwable object's rigidbody
 
+
+
         Vector3 forceDirection = camera.transform.forward;
         RaycastHit hit;
 
-        if(Physics.Raycast(camera.position,camera.forward, out hit, 500f))
+        if(Physics.Raycast(camera.transform.position,camera.transform.forward, out hit, 500f))
         {
-            forceDirection = (hit.point - throwPoint.position).normalized;
+            forceDirection = (hit.point - throwPoint.position).normalized; // Calculates the direction from player's camera to raycast hitpoint
         }
 
-        Vector3 forceToAdd = camera.transform.forward * throwForce + transform.up * throwUpwardForce;
+        Vector3 forceToAdd = forceDirection * throwForce + transform.up * throwUpwardForce;
 
         projectileRb.AddForce(forceToAdd, ForceMode.Impulse); // Impulse so it will only add the force once
 
@@ -57,7 +60,6 @@ public class PlayerThrowing : MonoBehaviour
 
         //throwCooldown
         Invoke(nameof(ResetThrow), coolDown);
-
 
 
 
