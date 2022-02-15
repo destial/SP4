@@ -108,6 +108,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 061ee09e9bcf63e4282543e5dca5e3dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 50
+  speed: 100
   velocity: {x: 0, y: 0, z: 0}
   travelled: {x: 0, y: 0, z: 0}

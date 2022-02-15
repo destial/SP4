@@ -17,11 +17,15 @@ public class InventoryController : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1)) {
-            primaryWeapon.SetActive(true);
             secondaryWeapon.SetActive(false);
+            secondaryWeapon.GetComponentInChildren<Weapon>().enabled = false;
+            primaryWeapon.SetActive(true);
+            primaryWeapon.GetComponentInChildren<Weapon>().enabled = true;
         } else if (Input.GetKeyDown(KeyCode.Alpha2)) {
-            primaryWeapon.SetActive(false);
             secondaryWeapon.SetActive(true);
+            secondaryWeapon.GetComponentInChildren<Weapon>().enabled = true;
+            primaryWeapon.SetActive(false);
+            primaryWeapon.GetComponentInChildren<Weapon>().enabled = false;
         }
     }
 }
