@@ -8,7 +8,7 @@ public class Grenade : MonoBehaviour
     public float delay = 3f;
 
     public float explosionForce = 10f;
-    public float radius = 20f;
+    public float radius = 10f;
 
     public float Damage = 50f;
 
