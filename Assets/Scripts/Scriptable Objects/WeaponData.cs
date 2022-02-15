@@ -13,7 +13,7 @@ public class WeaponData : ScriptableObject
     public float maxDistance;
 
     [Header("Reload")]
-    public int currentAmmo;
+    public int currentAmmo = 10;
     public int magSize;
     public float fireRate;
     public float reloadTime;

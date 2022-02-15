@@ -10,11 +10,13 @@ public class Weapon : MonoBehaviour
     [SerializeField] private Transform firingPoint; // Reference to firingPoint
     float LastShotTime;
     AudioSource shootingFSX;
+    private Camera fpsCam;
     private void Start()
     {
         PlayerShooting.shootInput += Shoot;
         PlayerShooting.reloadInput += Reload;
         shootingFSX = GetComponent<AudioSource>();
+        fpsCam = GetComponentInParent<Camera>();
     }
 
     public void Reload()
@@ -50,12 +52,23 @@ public void Shoot()
         {
             if(CanShoot())
             {
-                if(Physics.Raycast(firingPoint.position, firingPoint.forward, out RaycastHit hitInfo, weaponData.maxDistance))
+                Vector3 rayOrigin = fpsCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.0f));
+
+                RaycastHit hitInfo;
+
+                Vector3 end;
+                if(Physics.Raycast(rayOrigin, fpsCam.transform.forward, out hitInfo, weaponData.maxDistance))
                 {
+                    end = hitInfo.point;
                     IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
                     damageable?.Damage(weaponData.damage);
                     shootingFSX.Play();
                 }
+                else 
+                {
+                    end = fpsCam.transform.position + fpsCam.transform.forward * weaponData.maxDistance;
+                }
+                BulletManager.instance.Shoot(firingPoint.position, end);
                 weaponData.currentAmmo--;
                 LastShotTime = 0;
                 OnShoot();
