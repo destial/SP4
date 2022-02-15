@@ -2,31 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System;
 
 public class Zombie : MonoBehaviour
 {
-    private NavMeshAgent agent = null;
-    [SerializeField] private Transform target;
+    //private NavMeshAgent agent = null;
+    //[SerializeField] private Transform target;
 
-    // Start is called before the first frame update
+    [SerializeField] public Team _team;
+
+    public Transform Target { get; private set; }
+
+    public StateMachine StateMachine => GetComponent<StateMachine>();
+
     void Start()
     {
-        GetReferences();
+        InitializeStateMachine();
     }
 
-    private void GetReferences()
+    private void InitializeStateMachine()
     {
-        agent = GetComponent<NavMeshAgent>();
+        var states = new Dictionary<Type, BaseState>()
+        {
+            { typeof(Patrol), new Patrol(this)},
+            { typeof(Chase), new Chase(this)},
+            { typeof(Attack), new Attack(this)}
+
+        };
+
+        GetComponent<StateMachine>().setState(states);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        MoveToTarget();
-    }
 
-    private void MoveToTarget()
+    public void setTarget(Transform target)
     {
-        agent.SetDestination(target.position);
+        Target = target;
     }
+}
+
+
+public enum Team
+{
+    Red,
+    Blue
 }
