@@ -13,10 +13,18 @@ public class Weapon : MonoBehaviour
     private Camera fpsCam;
     private void Start()
     {
-        PlayerShooting.shootInput += Shoot;
-        PlayerShooting.reloadInput += Reload;
         shootingFSX = GetComponent<AudioSource>();
         fpsCam = GetComponentInParent<Camera>();
+    }
+
+    private void OnEnable() {
+        PlayerShooting.shootInput += Shoot;
+        PlayerShooting.reloadInput += Reload;
+    }
+
+    private void OnDisable() {
+        PlayerShooting.shootInput -= Shoot;
+        PlayerShooting.reloadInput -= Reload;
     }
 
     public void Reload()
@@ -53,9 +61,7 @@ public void Shoot()
             if(CanShoot())
             {
                 Vector3 rayOrigin = fpsCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.0f));
-
                 RaycastHit hitInfo;
-
                 Vector3 end;
                 if(Physics.Raycast(rayOrigin, fpsCam.transform.forward, out hitInfo, weaponData.maxDistance))
                 {
