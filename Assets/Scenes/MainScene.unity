@@ -238,7 +238,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: E
+  m_Text: Press E to Pick up
 --- !u!222 &320668249
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1118,7 +1118,7 @@ TerrainCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1714499115}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 7509f6c6d640a774f9dfaa8af8658a80, type: 2}
   m_Enabled: 1
   m_TerrainData: {fileID: 15600000, guid: 4735b82278488fa48adb4f6689efbe6e, type: 2}
   m_EnableTreeColliders: 1
