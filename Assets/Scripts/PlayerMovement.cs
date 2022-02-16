@@ -52,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
         // Apply gravity. Gravity is multiplied by deltaTime twice (once here, and once below
         // when the velocity is multiplied by deltaTime). This is because gravity should be applied
         // as an acceleration (ms^-2)
-        if (!characterController.isGrounded)
+        //if (!characterController.isGrounded)
         {
             velocity.y -= gravity * Time.deltaTime;
         }
