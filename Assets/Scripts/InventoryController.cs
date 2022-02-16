@@ -18,14 +18,26 @@ public class InventoryController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1)) {
             secondaryWeapon.SetActive(false);
-            secondaryWeapon.GetComponentInChildren<Weapon>().enabled = false;
+            if (secondaryWeapon.GetComponentInChildren<Weapon>() != null) {
+                secondaryWeapon.GetComponentInChildren<Weapon>().enabled = false;
+            }
             primaryWeapon.SetActive(true);
-            primaryWeapon.GetComponentInChildren<Weapon>().enabled = true;
+            if (primaryWeapon.GetComponentInChildren<Weapon>() != null) {
+                primaryWeapon.GetComponentInChildren<Weapon>().enabled = true;
+            }
         } else if (Input.GetKeyDown(KeyCode.Alpha2)) {
             secondaryWeapon.SetActive(true);
-            secondaryWeapon.GetComponentInChildren<Weapon>().enabled = true;
+            if (secondaryWeapon.GetComponentInChildren<Weapon>() != null) {
+                secondaryWeapon.GetComponentInChildren<Weapon>().enabled = true;
+            }
             primaryWeapon.SetActive(false);
-            primaryWeapon.GetComponentInChildren<Weapon>().enabled = false;
-        }
+            if (primaryWeapon.GetComponentInChildren<Weapon>() != null) {
+                primaryWeapon.GetComponentInChildren<Weapon>().enabled = false;
+            }
+         }
+    }
+
+    public GameObject GetActiveSlot() {
+        return primaryWeapon.activeSelf ? primaryWeapon : secondaryWeapon;
     }
 }
