@@ -74,7 +74,7 @@ public class Weapon : MonoBehaviour
 
     private bool CanShoot()
     {
-        if (!weaponData.IsReloading && LastShotTime > (1f / (weaponData.fireRate / 60f)))
+        if (LastShotTime > (1f / (weaponData.fireRate / 60f)))
             return true;
         else
             return false;
@@ -82,7 +82,7 @@ public class Weapon : MonoBehaviour
 
     public void Shoot()
     {
-        if(weaponData.currentAmmo > 0 && !loading)
+        if(!loading)
         {
             if(CanShoot())
             {
@@ -92,14 +92,14 @@ public class Weapon : MonoBehaviour
                 if(Physics.Raycast(rayOrigin, fpsCam.transform.forward, out hitInfo, weaponData.maxDistance))
                 {
                     end = hitInfo.point;
-                    IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
-                    damageable?.TakeDamage(weaponData.damage);
-                    shootingFSX.Play();
+                    //IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
+                    //damageable?.TakeDamage(weaponData.damage);
                 }
                 else 
                 {
                     end = fpsCam.transform.position + fpsCam.transform.forward * weaponData.maxDistance;
                 }
+                shootingFSX.Play();
                 BulletManager.instance.Shoot(firingPoint.position, end);
                 weaponData.currentAmmo--;
                 LastShotTime = 0;
@@ -114,7 +114,7 @@ public class Weapon : MonoBehaviour
             //transform.localPosition = Vector3.Lerp(transform.localPosition, originalPos, 10 *Time.deltaTime);
             //transform.localRotation = Quaternion.Lerp(transform.localRotation, originalRot, 10 * Time.deltaTime);
             loadingTime += Time.deltaTime;
-            if (loadingTime >= 3f) {
+            if (loadingTime >= 1f) {
                 //transform.localPosition = originalPos;
                 //transform.localRotation = originalRot;
                 loading = false;
