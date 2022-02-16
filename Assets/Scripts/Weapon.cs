@@ -85,7 +85,7 @@ public class Weapon : MonoBehaviour
                 {
                     end = hitInfo.point;
                     IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
-                    damageable?.Damage(weaponData.damage);
+                    damageable?.TakeDamage(weaponData.damage);
                     shootingFSX.Play();
                 }
                 else 
