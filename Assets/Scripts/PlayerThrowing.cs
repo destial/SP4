@@ -20,16 +20,29 @@ public class PlayerThrowing : MonoBehaviour
     public float throwForce;
     public float throwUpwardForce;
 
+
+    private LineRenderer lineRender;
+
     bool canThrow;
+    bool released = false;
     private void Start()
     {
         canThrow = true;
+        lineRender = GetComponent<LineRenderer>();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(throwKey) && canThrow && totalThrows > 0)
+        if (Input.GetKeyDown(throwKey))
+        {
+            lineRender.enabled = true;
+            
+        }
+        else if (Input.GetKeyUp(throwKey) && canThrow && totalThrows > 0)
+        {
+            lineRender.enabled = false;
             Throw();
+        }
     }
 
     private void Throw()

@@ -130,6 +130,7 @@ MonoBehaviour:
   delay: 3
   explosionForce: 10
   radius: 20
+  Damage: 50
 --- !u!1001 &8155392668948479767
 PrefabInstance:
   m_ObjectHideFlags: 0
