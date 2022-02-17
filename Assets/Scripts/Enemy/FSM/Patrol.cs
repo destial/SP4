@@ -25,7 +25,7 @@ public class Patrol : BaseState
         var chaseTarget = checkForAggro();
         if(chaseTarget != null)
         {
-            Debug.Log("attacking");
+            Debug.Log("Chasing Player");
             _zombie.setTarget(chaseTarget);
             return typeof(Chase);
         }
@@ -79,15 +79,15 @@ public class Patrol : BaseState
         _direction = Vector3.Normalize(_destination.Value - transform.position);
         _direction = new Vector3(_direction.x, 0f, _direction.z);
         _desiredRotation = Quaternion.LookRotation(_direction);
-        Debug.Log("Got Direction");
+        Debug.Log("Found Random Direction");
     }
 
     private Transform checkForAggro()
     {
-        Quaternion startingAngle = Quaternion.AngleAxis(-60, Vector3.up);
+        Quaternion startingAngle = Quaternion.AngleAxis(-40, Vector3.up);
         Quaternion stepAngle = Quaternion.AngleAxis(5, Vector3.up);
 
-        float aggroRadius = 50f;
+        float aggroRadius = 40f;
 
         RaycastHit hit;
         var angle = transform.rotation * startingAngle;
@@ -104,7 +104,8 @@ public class Patrol : BaseState
                     var drone = hit.collider.GetComponentInParent<PlayerMovement>();
                     if (drone != null)
                     {
-                        Debug.Log("hit player");
+                        //When zombie hit player
+                        Debug.Log("Player Found");
                         Debug.DrawLine(pos, direction * hit.distance, Color.red);
                         return drone.transform;
                     }
@@ -116,7 +117,7 @@ public class Patrol : BaseState
             }
             else
             {
-                Debug.Log("no hit");
+                //Debug.Log("Player Not Found");
                 Debug.DrawLine(pos, direction * aggroRadius, Color.white);
             }
             direction = stepAngle * direction;

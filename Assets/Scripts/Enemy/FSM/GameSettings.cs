@@ -5,9 +5,9 @@ using System;
 
 public class GameSettings : MonoBehaviour
 {
-    [SerializeField] public float zombieSpeed = 2f;
-    [SerializeField] public float aggroRadius = 4f;
-    [SerializeField] public float attackRange = 3f;
+    [SerializeField] public float zombieSpeed = 5f;
+    [SerializeField] public float aggroRadius = 2f;
+    [SerializeField] public float attackRange = 1f;
     [SerializeField] public GameObject zombieProjectilePrefab;
 
     public static GameSettings Instance;
