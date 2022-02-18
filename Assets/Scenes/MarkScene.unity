@@ -802,7 +802,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 185174e39461ecc4390adcfddf979cf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zombieSpeed: 3.47
+  zombieSpeed: 1.5
   aggroRadius: 4
   attackRange: 3
   zombieProjectilePrefab: {fileID: 0}
@@ -899,5 +899,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5247757577840797808, guid: c1520bf84f7d423469fdf54506a67870, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: ce65fa103f0e84b4289374b2a4bf93f8, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1520bf84f7d423469fdf54506a67870, type: 3}

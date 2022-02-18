@@ -14,21 +14,34 @@ public class Patrol : BaseState
     private Quaternion _desiredRotation;
     private Vector3 _direction;
     private Zombie _zombie;
+    
+
 
     public Patrol(Zombie zombie):base(zombie.gameObject)
     {
         _zombie = zombie;
+        animator = _zombie.GetComponentInChildren<Animator>();
     }
+
 
     public override Type Tick()
     {
+        //fsmTimer += Time.deltaTime;
+
         var chaseTarget = checkForAggro();
         if(chaseTarget != null)
         {
             Debug.Log("Chasing Player");
             _zombie.setTarget(chaseTarget);
+            
             return typeof(Chase);
         }
+
+        else if(chaseTarget == null)
+        {
+            animator.SetBool("isPatrolling", true);
+        }
+
 
        if(_destination.HasValue == false || Vector3.Distance(transform.position,_destination.Value) <= stopDistance)
         {
@@ -104,9 +117,10 @@ public class Patrol : BaseState
                     var drone = hit.collider.GetComponentInParent<PlayerMovement>();
                     if (drone != null)
                     {
-                        //When zombie hit player
+                        //When zombie FOUND player
                         Debug.Log("Player Found");
                         Debug.DrawLine(pos, direction * hit.distance, Color.red);
+                        //animator.SetBool("isPatrolling", false);
                         return drone.transform;
                     }
                 }

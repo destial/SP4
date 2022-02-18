@@ -13,6 +13,7 @@ public abstract class BaseState
 
     protected GameObject gameObject;
     protected Transform transform;
+    public Animator animator;
 
     public abstract Type Tick();
 }
