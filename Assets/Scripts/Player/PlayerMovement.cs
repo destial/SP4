@@ -12,12 +12,12 @@ public class PlayerMovement : MonoBehaviour
     public Camera playerCamera;
     public float lookSpeed = 2.0f;
     public float lookXLimit = 45.0f;
-    private float crouchHeight = 0.5f;
-    private float standingHeight = 2f;
+    private float crouchHeight;
+    private float standingHeight;
     private float timeToCrouch = 0.25f;
 
-    private Vector3 crouchingCenter = new Vector3(0, 0.5f, 0);
-    private Vector3 standingCenter = new Vector3(0, 0, 0);
+    private Vector3 crouchingCenter;
+    private Vector3 standingCenter;
 
     CharacterController characterController;
     Vector3 moveDirection = Vector3.zero;
@@ -35,6 +35,13 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+
+        standingHeight = characterController.height;
+        crouchHeight = standingHeight / 4;
+
+        standingCenter = characterController.center;
+        crouchingCenter = new Vector3(standingCenter.x, standingCenter.y + 0.5f, standingCenter.z);
+
 
         // Lock cursor
         Cursor.lockState = CursorLockMode.Locked;
