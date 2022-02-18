@@ -11,4 +11,9 @@ public class Target : MonoBehaviour, IDamageable
         if (health <= 0)
             Destroy(gameObject);
     }
+
+    public float GetHP()
+    {
+        return health;
+    }
 }
