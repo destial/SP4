@@ -6,10 +6,6 @@ using System;
 
 public class Zombie : MonoBehaviour
 {
-    //private NavMeshAgent agent = null;
-    //[SerializeField] private Transform target;
-
-    [SerializeField] public Team _team;
 
     public Transform Target { get; private set; }
 
@@ -25,8 +21,7 @@ public class Zombie : MonoBehaviour
         var states = new Dictionary<Type, BaseState>()
         {
             { typeof(Patrol), new Patrol(this)},
-            { typeof(Chase), new Chase(this)},
-            { typeof(Attack), new Attack(this)}
+            { typeof(Chase), new Chase(this)}
 
         };
 
@@ -38,11 +33,4 @@ public class Zombie : MonoBehaviour
     {
         Target = target;
     }
-}
-
-
-public enum Team
-{
-    Red,
-    Blue
 }
