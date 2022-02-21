@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public static PlayerMovement instance;
+
     public float walkingSpeed = 7.5f;
     public float runningSpeed = 11.5f;
     public float crouchingSpeed = 3.5f;
@@ -34,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        instance = this;
         characterController = GetComponent<CharacterController>();
 
         standingHeight = characterController.height;
@@ -43,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
         crouchingCenter = new Vector3(standingCenter.x, standingCenter.y + 0.5f, standingCenter.z);
 
 
-        // Lock cursor
+        // Lock cursor 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
