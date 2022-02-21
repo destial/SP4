@@ -84,12 +84,13 @@ public class PlayerMovement : MonoBehaviour
         // when the velocity is multiplied by deltaTime). This is because gravity should be applied
         // as an acceleration (ms^-2)
         //if (!characterController.isGrounded)
-        {
-            velocity.y -= gravity * Time.deltaTime;
-        }
+        //{
+        velocity.y -= gravity * Time.deltaTime;
+        //}
 
         // Move the controller
         characterController.Move(velocity * Time.deltaTime);
+        // characterController.SimpleMove(velocity);
 
         // Player and Camera rotation
         if (canMove)
@@ -139,5 +140,9 @@ public class PlayerMovement : MonoBehaviour
 
         isCrouching = !isCrouching;
         During_Player_Crouch_Animation = false;
+    }
+
+    private void OnCollisionEnter(Collision collision) {
+        // collision.rigidbody?.AddForceAtPosition(velocity, collision.GetContacts());
     }
 }
