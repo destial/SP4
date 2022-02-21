@@ -6,14 +6,13 @@ public abstract class Pickable : MonoBehaviour
 {
     private bool isPickable = true;
     // Start is called before the first frame update
-    void Start()
+    public bool getPickable()
     {
-        
+        return isPickable;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void setPickable(bool p)
     {
-        
+        isPickable = p;
     }
 }

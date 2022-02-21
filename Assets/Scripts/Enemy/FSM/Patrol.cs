@@ -14,13 +14,14 @@ public class Patrol : BaseState
     private Quaternion _desiredRotation;
     private Vector3 _direction;
     private Zombie _zombie;
-
+    private Vector3 noisePos = Vector3.zero;
+    private float timer = 5f;
     public Patrol(Zombie zombie):base(zombie.gameObject)
     {
         _zombie = zombie;
     }
 
-    public override Type Tick()
+    public override Type Tick() // Update
     {
         var chaseTarget = checkForAggro();
         if(chaseTarget != null)
@@ -39,7 +40,7 @@ public class Patrol : BaseState
 
         if(isForwardBlocked())
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, _desiredRotation, 0.2f);
+            transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRotation, 0.2f);
         }
         else
         {
