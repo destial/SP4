@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Keypad : MonoBehaviour
 {
-    public string curPassword = "12345";
+    public string currentPassword = "12345";
     public string input;
     public bool onTrigger;
     public bool doorOpen;
@@ -25,7 +25,7 @@ public class Keypad : MonoBehaviour
 
     void Update()
     {
-        if (input == curPassword)
+        if (input == currentPassword)
         {
             doorOpen = true;
             Cursor.lockState = CursorLockMode.Locked;
@@ -46,9 +46,9 @@ public class Keypad : MonoBehaviour
         {
             if (onTrigger)
             {
-                GUI.Box(new Rect(400, 250, 200, 25), "Press 'E' to open keypad");
+                GUI.Box(new Rect(400, 250, 200, 25), "Press 'F' to open keypad");
 
-                if (Input.GetKeyDown(KeyCode.E))
+                if (Input.GetKeyDown(KeyCode.F))
                 {
                     keypadScreen = true;
                     onTrigger = false;
