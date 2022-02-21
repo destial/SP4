@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 standingCenter;
 
     CharacterController characterController;
-    Vector3 moveDirection = Vector3.zero;
+    [HideInInspector] public Vector3 velocity = Vector3.zero;
     float rotationX = 0;
 
     private bool Should_Player_Crouch => Input.GetKeyDown(Crouch_Key) && !During_Player_Crouch_Animation && characterController.isGrounded;
@@ -57,9 +57,6 @@ public class PlayerMovement : MonoBehaviour
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
 
-        // Assigning Keys to player
-        bool isRunning = Input.GetKey(KeyCode.LeftShift);
-
         // Press Left Shift to run
         float curSpeedX = canMove ? (isCrouching ? crouchingSpeed : isRunning ? runningSpeed : walkingSpeed) * Input.GetAxis("Vertical") : 0;
         float curSpeedY = canMove ? (characterController.isGrounded ? (isCrouching ? crouchingSpeed : isRunning ? runningSpeed : walkingSpeed) : lookSpeed) * Input.GetAxis("Horizontal") : 0;
@@ -75,23 +72,23 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
         {
-            moveDirection.y = jumpSpeed;
+            velocity.y = jumpSpeed;
         }
         else
         {
-            moveDirection.y = movementDirectionY;
+            velocity.y = movementDirectionY;
         }
 
         // Apply gravity. Gravity is multiplied by deltaTime twice (once here, and once below
-        // when the moveDirection is multiplied by deltaTime). This is because gravity should be applied
+        // when the velocity is multiplied by deltaTime). This is because gravity should be applied
         // as an acceleration (ms^-2)
-        if (!characterController.isGrounded)
+        //if (!characterController.isGrounded)
         {
-            moveDirection.y -= gravity * Time.deltaTime;
+            velocity.y -= gravity * Time.deltaTime;
         }
 
         // Move the controller
-        characterController.Move(moveDirection * Time.deltaTime);
+        characterController.Move(velocity * Time.deltaTime);
 
         // Player and Camera rotation
         if (canMove)

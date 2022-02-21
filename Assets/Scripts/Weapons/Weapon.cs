@@ -9,6 +9,8 @@ public class Weapon : MonoBehaviour
     [SerializeField] WeaponData weaponData;      //Reference to WeaponData
     [SerializeField] private Transform firingPoint; // Reference to firingPoint
     [SerializeField] public Transform scopePoint;
+    public float dropForceForward = 10f;
+    public float dropForceUp = 2f;
     float LastShotTime;
     AudioSource shootingFSX;
     private Camera fpsCam;
@@ -16,6 +18,7 @@ public class Weapon : MonoBehaviour
     private Quaternion originalRot;
     private bool loading;
     private float loadingTime = 0f;
+    public GameObject dropPrefab;
 
     private void Start()
     {
@@ -26,13 +29,21 @@ public class Weapon : MonoBehaviour
         originalRot = transform.localRotation;
     }
 
-    private void OnEnable() {
+    private void Drop() {
+        GameObject drop = Instantiate(dropPrefab);
+        drop.transform.position = transform.position;
+        drop.transform.rotation = transform.rotation;
+        Rigidbody rb = drop.GetComponent<Rigidbody>();
+        rb.velocity = GetComponentInParent<CharacterController>().velocity;
+        rb.AddForce(GetComponentInParent<Camera>().transform.forward * dropForceForward, ForceMode.Impulse);
+        rb.AddForce(GetComponentInParent<Camera>().transform.up * dropForceUp, ForceMode.Impulse);
+        Destroy(gameObject);
+    }
 
+    private void OnEnable() {
         PlayerShooting.shootInput += Shoot;
         PlayerShooting.reloadInput += Reload;
         loading = true;
-        
-        //transform.localPosition += Vector3.up;
         transform.localRotation = Quaternion.AngleAxis(-90, Vector3.right);
     }
 
@@ -40,9 +51,6 @@ public class Weapon : MonoBehaviour
         PlayerShooting.shootInput -= Shoot;
         PlayerShooting.reloadInput -= Reload;
         loading = false;
-        
-        //transform.localPosition += Vector3.up;
-        //transform.localRotation = Quaternion.AngleAxis(-90, Vector3.right);
     }
 
     public void Reload()
@@ -66,7 +74,7 @@ public class Weapon : MonoBehaviour
 
     private bool CanShoot()
     {
-        if (!weaponData.IsReloading && LastShotTime > (1f / (weaponData.fireRate / 60f)))
+        if (LastShotTime > (1f / (weaponData.fireRate / 60f)))
             return true;
         else
             return false;
@@ -74,7 +82,7 @@ public class Weapon : MonoBehaviour
 
     public void Shoot()
     {
-        if(weaponData.currentAmmo > 0 && !loading)
+        if(!loading)
         {
             if(CanShoot())
             {
@@ -84,14 +92,14 @@ public class Weapon : MonoBehaviour
                 if(Physics.Raycast(rayOrigin, fpsCam.transform.forward, out hitInfo, weaponData.maxDistance))
                 {
                     end = hitInfo.point;
-                    IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
-                    damageable?.TakeDamage(weaponData.damage);
-                    shootingFSX.Play();
+                    //IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
+                    //damageable?.TakeDamage(weaponData.damage);
                 }
                 else 
                 {
                     end = fpsCam.transform.position + fpsCam.transform.forward * weaponData.maxDistance;
                 }
+                shootingFSX.Play();
                 BulletManager.instance.Shoot(firingPoint.position, end);
                 weaponData.currentAmmo--;
                 LastShotTime = 0;
@@ -106,16 +114,17 @@ public class Weapon : MonoBehaviour
             //transform.localPosition = Vector3.Lerp(transform.localPosition, originalPos, 10 *Time.deltaTime);
             //transform.localRotation = Quaternion.Lerp(transform.localRotation, originalRot, 10 * Time.deltaTime);
             loadingTime += Time.deltaTime;
-            if (loadingTime >= 3f) {
+            if (loadingTime >= 1f) {
                 //transform.localPosition = originalPos;
                 //transform.localRotation = originalRot;
                 loading = false;
                 loadingTime = 0f;
             }
         }
+        if (Input.GetKeyDown(KeyCode.Q)) {
+            Drop();
+        }
         LastShotTime += Time.deltaTime;
-
-        Debug.DrawRay(firingPoint.position, firingPoint.forward);
     }
 
     private void OnShoot()
