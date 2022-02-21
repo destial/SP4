@@ -28,6 +28,9 @@ public class Keypad : MonoBehaviour
         if (input == curPassword)
         {
             doorOpen = true;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            PlayerMovement.instance.canMove = true;
         }
 
         if (doorOpen)
