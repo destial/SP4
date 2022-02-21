@@ -58,10 +58,11 @@ public class PlayerMovement : MonoBehaviour
         Vector3 right = transform.TransformDirection(Vector3.right);
 
         // Press Left Shift to run
+        bool isRunning = Input.GetKey(KeyCode.LeftShift);
         float curSpeedX = canMove ? (isCrouching ? crouchingSpeed : isRunning ? runningSpeed : walkingSpeed) * Input.GetAxis("Vertical") : 0;
         float curSpeedY = canMove ? (characterController.isGrounded ? (isCrouching ? crouchingSpeed : isRunning ? runningSpeed : walkingSpeed) : lookSpeed) * Input.GetAxis("Horizontal") : 0;
-        float movementDirectionY = moveDirection.y;
-        moveDirection = (forward * curSpeedX) + (right * curSpeedY);
+        float movementDirectionY = velocity.y;
+        velocity = (forward * curSpeedX) + (right * curSpeedY);
 
         // Press Left Control to crouch
         if (canCrouch)
