@@ -15,8 +15,8 @@ MonoBehaviour:
   name: Assault
   damage: 10
   maxDistance: 200
-  currentAmmo: 10
-  magSize: 10
-  fireRate: 100
-  reloadTime: 2
+  currentAmmo: 64
+  magSize: 64
+  fireRate: 650
+  reloadTime: 1
   IsReloading: 0

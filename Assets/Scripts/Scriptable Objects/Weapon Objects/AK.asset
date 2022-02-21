@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b0920f0654dc09440b91a23a023eed12, type: 3}
-  m_Name: Pistol
+  m_Name: AK
   m_EditorClassIdentifier: 
-  name: Pistol
+  name: AK
   damage: 10
   maxDistance: 200
-  currentAmmo: 100
-  magSize: 10
-  fireRate: 100
-  reloadTime: 2
-  IsReloading: 1
+  currentAmmo: 19
+  magSize: 32
+  fireRate: 500
+  reloadTime: 3
+  IsReloading: 0
