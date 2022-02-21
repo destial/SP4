@@ -19,17 +19,26 @@ public class GUIPickup : MonoBehaviour
         if (player == null) return;
 
         if (item != null && Vector3.Distance(item.position, player.transform.position) <= item.GetComponent<PickupItem>().pickupRange) {
-            Camera camera = player.GetComponentInChildren<Camera>();
-            GetComponent<Text>().enabled = true;
-            Vector3 screen = camera.WorldToScreenPoint(item.position);
-            gameObject.transform.position = screen;
+            
             GameObject currentWeapon = player.GetComponentInChildren<InventoryController>().GetActiveSlot();
             if (Input.GetKeyDown(KeyCode.E) && currentWeapon.GetComponentInChildren<Weapon>() == null) {
                 Instantiate(item.gameObject.GetComponent<PickupItem>().itemPrefab, currentWeapon.transform);
                 Destroy(item.gameObject);
             }
         } else {
-            GetComponent<Text>().enabled = false;
+            //GetComponent<Text>().enabled = false;
         }
+    }
+
+    void OnGUI() {
+        if (item == null) return;
+        GameObject player = PlayerManager.player;
+        if (player == null) return;
+        Camera camera = player.GetComponentInChildren<Camera>();
+        //GetComponent<Text>().enabled = true
+        Vector3 screen = camera.WorldToScreenPoint(item.position);
+        Rect rect = new Rect(screen, new Vector2(150, 30));
+        GUI.Box(rect, "Press E to equip");
+        gameObject.transform.position = screen;
     }
 }
