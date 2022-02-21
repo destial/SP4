@@ -25,7 +25,7 @@ public class Patrol : BaseState
         var chaseTarget = checkForAggro();
         if(chaseTarget != null)
         {
-            Debug.Log("Chasing Player");
+            Debug.Log("Chasing!");
             _zombie.setTarget(chaseTarget);
             return typeof(Chase);
         }
@@ -39,7 +39,7 @@ public class Patrol : BaseState
 
         if(isForwardBlocked())
         {
-            transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRotation, 0.2f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, _desiredRotation, 0.2f);
         }
         else
         {
@@ -94,6 +94,19 @@ public class Patrol : BaseState
         var direction = angle * Vector3.forward;
         var pos = transform.position;
         pos.y += 1;
+        Collider[] colliders = Physics.OverlapSphere(transform.position, aggroRadius); // Stores all colliders that are within enemy's radius
+
+        foreach (Collider near in colliders)
+        {
+            if(near.gameObject.GetComponent<Pipebomb>() != null)
+            {
+                return near.gameObject.transform;
+            }
+        }
+
+
+
+        // Field of view
         for (var i = 0; i < 24; i++)
         {
             if (Physics.Raycast(pos, direction, out hit, aggroRadius))
