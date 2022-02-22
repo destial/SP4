@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grenade : MonoBehaviour
+public class Pipebomb : MonoBehaviour
 {
     public GameObject explosionEffect;
-    public float delay = 3f;
+    public float delay = 5f;
 
     public float explosionForce = 10f;
     public float radius = 10f;
 
-    public float damage = 50f;
+    public float damage = 100f;
 
     private GameObject effect;
 
@@ -24,7 +24,7 @@ public class Grenade : MonoBehaviour
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
 
-        foreach(Collider near in colliders)
+        foreach (Collider near in colliders)
         {
             Rigidbody rb = near.GetComponent<Rigidbody>();
             IDamageable damageable = near.GetComponent<IDamageable>();
@@ -32,11 +32,11 @@ public class Grenade : MonoBehaviour
             {
                 rb.AddExplosionForce(explosionForce, transform.position, radius, 1f, ForceMode.Impulse);
             }
-            if(damageable != null)
+            if (damageable != null)
             {
-                
+
                 distance = (transform.position - rb.transform.position).magnitude;
-                if(distance <= radius)
+                if (distance <= radius)
                 {
                     float damageScale = (1 - (distance / radius)) * damage; // Calculate new grenade damage based on distance from entity to grenade
 
@@ -46,12 +46,12 @@ public class Grenade : MonoBehaviour
                 }
 
             }
-            
+
         }
 
         //Explosion effect
         effect = Instantiate(explosionEffect, transform.position, transform.rotation);
         Destroy(effect, 1);
-        Destroy(gameObject);   
+        Destroy(gameObject);
     }
 }
