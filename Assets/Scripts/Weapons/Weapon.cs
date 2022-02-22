@@ -19,14 +19,19 @@ public class Weapon : MonoBehaviour
     private bool loading;
     private float loadingTime = 0f;
     public GameObject dropPrefab;
+    private LineRenderer lineRenderer;
+    private Recoil recoil;
 
     private void Start()
     {
         shootingFSX = GetComponent<AudioSource>();
         fpsCam = GetComponentInParent<Camera>();
 
+        lineRenderer = GetComponentInParent<LineRenderer>();
+
         originalPos = transform.localPosition;
         originalRot = transform.localRotation;
+        recoil = GetComponentInParent<Recoil>();
     }
 
     private void Drop() {
@@ -92,18 +97,30 @@ public class Weapon : MonoBehaviour
                 if(Physics.Raycast(rayOrigin, fpsCam.transform.forward, out hitInfo, weaponData.maxDistance))
                 {
                     end = hitInfo.point;
-                    //IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
-                    //damageable?.TakeDamage(weaponData.damage);
+                    hitInfo.rigidbody?.AddForceAtPosition(fpsCam.transform.forward, hitInfo.point);
+                    IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
+                    if (damageable == null) { 
+                        hitInfo.transform.GetComponentInChildren<IDamageable>();
+                    }
+                    if (damageable == null) { 
+                        hitInfo.transform.GetComponentInParent<IDamageable>();
+                    }
+                    damageable?.TakeDamage(weaponData.damage);
+                    
                 }
                 else 
                 {
                     end = fpsCam.transform.position + fpsCam.transform.forward * weaponData.maxDistance;
                 }
+                lineRenderer.enabled = true;
+                lineRenderer.positionCount = 2;
+                lineRenderer.SetPosition(0, firingPoint.position);
+                lineRenderer.SetPosition(1, end);
                 shootingFSX.Play();
-                BulletManager.instance.Shoot(firingPoint.position, end);
+                // BulletManager.instance.Shoot(firingPoint.position, end);
                 weaponData.currentAmmo--;
-                LastShotTime = 0;
-                OnShoot();
+                LastShotTime = 0f;
+                recoil.RecoilFire();
             }
         }
     }
@@ -125,10 +142,9 @@ public class Weapon : MonoBehaviour
             Drop();
         }
         LastShotTime += Time.deltaTime;
-    }
-
-    private void OnShoot()
-    {
-        
+        if (LastShotTime > Time.deltaTime) {
+            lineRenderer.enabled = false;
+            lineRenderer.positionCount = 0;
+        }
     }
 }
