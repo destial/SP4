@@ -10,7 +10,7 @@ public class Grenade : MonoBehaviour
     public float explosionForce = 10f;
     public float radius = 10f;
 
-    public float Damage = 50f;
+    public float damage = 50f;
 
     private GameObject effect;
 
@@ -38,7 +38,7 @@ public class Grenade : MonoBehaviour
                 distance = (transform.position - rb.transform.position).magnitude;
                 if(distance <= radius)
                 {
-                    float damageScale = (1 - (distance / radius)) * Damage; // Calculate new grenade damage based on distance from entity to grenade
+                    float damageScale = (1 - (distance / radius)) * damage; // Calculate new grenade damage based on distance from entity to grenade
 
                     Debug.Log("Distance :" + distance);
                     damageable?.TakeDamage(damageScale);

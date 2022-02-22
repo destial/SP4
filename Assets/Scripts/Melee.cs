@@ -5,6 +5,7 @@ using UnityEngine;
 public class Melee : MonoBehaviour
 {
     public GameObject melee;
+    public GameObject HitParticle;
     public bool canAttack = true;
     public float coolDown = 1.0f;
 
@@ -14,6 +15,7 @@ public class Melee : MonoBehaviour
     private Camera playerView;
     private Vector3 camForward;
     private float damageMultiplier = 1.0f; // For backstabbing
+    private GameObject effect;
     private void Start()
     {
         Sound = melee.GetComponent<AudioSource>();
@@ -54,8 +56,9 @@ public class Melee : MonoBehaviour
         Vector3 _halfExtends = new Vector3(_scaledSize.x, m_thickness, _scaledSize.z) * 0.5f;
         Quaternion _orientation = melee.transform.rotation;
 
-        Vector3 EnemyView;
-        Vector3 playerToEnemyView;
+        
+        Vector3 EnemyView; // Where enemy's forward vector
+        Vector3 playerToEnemyView; // Player to enemy direction vector
         Collider[] hit = Physics.OverlapBox(_start, _halfExtends, _orientation);
         // Checks all that has collided
         for (int i = 0; i < hit.Length; i++)
@@ -79,17 +82,23 @@ public class Melee : MonoBehaviour
             {
                 damageable = hit[i].gameObject.GetComponentInParent<IDamageable>();
             }
-            
+            else
+            {
+                Debug.Log("No Target Script: " + hit[i].gameObject.name);
+                continue;
+            }
             //Backstabbing code
             EnemyView = hit[i].gameObject.transform.forward; //  Enemy's view direction
-            playerToEnemyView = (playerView.transform.position - hit[i].gameObject.transform.position).normalized; // Player to enemy view direction
-            if (Vector3.Dot(EnemyView, playerToEnemyView) < -0.5f)// Check for backstab
+            playerToEnemyView = (playerView.transform.position - hit[i].gameObject.transform.position).normalized; // enemy to player view direction
+            if (Vector3.Dot(EnemyView, playerToEnemyView) < -0.65f)// Check if player is behind enemy
                 damageMultiplier = 100.0f;
-
-
+            
+            effect = Instantiate(HitParticle, hit[i].gameObject.transform.position, hit[i].gameObject.transform.rotation); // instantiates the particle
+            effect.transform.LookAt(playerView.transform); // Ensures the instantiated particle is always facing the player
             damageable?.TakeDamage(5 * damageMultiplier);
             Debug.Log(damageable?.GetHP());
             Debug.Log("Hit: " + hit[i].gameObject.name);
+            Destroy(effect, 1f); // Destroys particle after it is done
         }
         StartCoroutine(ResetAttackCooldown());
     }

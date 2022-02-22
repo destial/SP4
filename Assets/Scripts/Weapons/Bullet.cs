@@ -28,14 +28,7 @@ public class Bullet : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision collision) {
-        IDamageable damageable = collision.transform.GetComponent<IDamageable>();
-        if (damageable == null) { 
-            collision.transform.GetComponentInChildren<IDamageable>();
-        }
-        if (damageable == null) { 
-            collision.transform.GetComponentInParent<IDamageable>();
-        }
-        damageable?.TakeDamage(damage);
-        Destroy(gameObject);
+        // Debug.Log("Collision bullet");
+        
     }
 }

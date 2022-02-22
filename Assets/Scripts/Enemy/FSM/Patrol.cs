@@ -14,18 +14,19 @@ public class Patrol : BaseState
     private Quaternion _desiredRotation;
     private Vector3 _direction;
     private Zombie _zombie;
-
+    private Vector3 noisePos = Vector3.zero;
+    private float timer = 5f;
     public Patrol(Zombie zombie):base(zombie.gameObject)
     {
         _zombie = zombie;
     }
 
-    public override Type Tick()
+    public override Type Tick() // Update
     {
         var chaseTarget = checkForAggro();
         if(chaseTarget != null)
         {
-            Debug.Log("Chasing Player");
+            Debug.Log("Chasing!");
             _zombie.setTarget(chaseTarget);
             return typeof(Chase);
         }
@@ -94,6 +95,19 @@ public class Patrol : BaseState
         var direction = angle * Vector3.forward;
         var pos = transform.position;
         pos.y += 1;
+        Collider[] colliders = Physics.OverlapSphere(transform.position, aggroRadius); // Stores all colliders that are within enemy's radius
+
+        foreach (Collider near in colliders)
+        {
+            if(near.gameObject.GetComponent<Pipebomb>() != null)
+            {
+                return near.gameObject.transform;
+            }
+        }
+
+
+
+        // Field of view
         for (var i = 0; i < 24; i++)
         {
             if (Physics.Raycast(pos, direction, out hit, aggroRadius))
