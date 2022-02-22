@@ -9,10 +9,16 @@ public class Chase : BaseState
 
     private Zombie _zombie;
 
+    const string RUN = "Zombie_Run";
+    const string ATTACK = "Zombie_Attack";
+
+    bool attackOutOfRange = true;
+
     public Chase(Zombie zombie) : base(zombie.gameObject)
     {
         _zombie = zombie;
         animator = _zombie.GetComponentInChildren<Animator>();
+        animationManager = _zombie.GetComponent<AnimationManager>();
     }
 
     public override Type Tick()
@@ -24,9 +30,6 @@ public class Chase : BaseState
 
         else if(_zombie.Target != null)
         {
-
-            animator.SetBool("isPatrolling", false);
-
             //Zombie's Target
             transform.LookAt(_zombie.Target);
             transform.Translate(Vector3.forward * Time.deltaTime * GameSettings.Instance.zombieSpeed * 2);
@@ -36,22 +39,32 @@ public class Chase : BaseState
 
             Debug.Log("CHASING PLAYER");
 
-
             //ATTACK, When enemy reached player within distance
             if (distance <= GameSettings.Instance.attackRange)
             {
+                attackOutOfRange = false;
                 Debug.Log("ATTACKED PLAYER");
-            }
 
+            }
             //Player is out of range in enemy vision
             else if (distance >= GameSettings.Instance.attackRange)
             {
+                attackOutOfRange = true;
                 return typeof(Patrol);
             }
+
+
+            //BOOL for ANIMATIONS
+            if(attackOutOfRange == false)
+            {
+                animationManager.ChangeAnimationState(ATTACK);
+            }
+            else
+            {
+                //Callout Animation
+                animationManager.ChangeAnimationState(RUN);
+            }
         }
-
-        
-
         return null;
     }
 }

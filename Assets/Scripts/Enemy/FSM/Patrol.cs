@@ -14,6 +14,11 @@ public class Patrol : BaseState
     private Quaternion _desiredRotation;
     private Vector3 _direction;
     private Zombie _zombie;
+
+    //Animation States
+    const string WALK = "Zombie_Walk";
+
+    
     
 
 
@@ -21,13 +26,12 @@ public class Patrol : BaseState
     {
         _zombie = zombie;
         animator = _zombie.GetComponentInChildren<Animator>();
+        animationManager = _zombie.GetComponent<AnimationManager>();
     }
 
 
     public override Type Tick()
     {
-        //fsmTimer += Time.deltaTime;
-
         var chaseTarget = checkForAggro();
         if(chaseTarget != null)
         {
@@ -39,7 +43,8 @@ public class Patrol : BaseState
 
         else if(chaseTarget == null)
         {
-            animator.SetBool("isPatrolling", true);
+            animationManager.ChangeAnimationState(WALK);
+            //animator.SetBool("isPatrolling", true);
         }
 
 
