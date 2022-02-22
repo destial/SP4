@@ -15,10 +15,12 @@ public class Chase : BaseState
     public override Type Tick()
     {
         if (_zombie.Target == null) return typeof(Patrol);
-
         //Zombie's Target
-        transform.LookAt(_zombie.Target);
-        transform.Translate(Vector3.forward * Time.deltaTime * GameSettings.Instance.zombieSpeed * 5);
+        Vector3 targetPos = new Vector3(_zombie.Target.position.x,
+                                        transform.position.y,
+                                        _zombie.Target.position.z);
+        //transform.LookAt(_zombie.Target);
+        transform.LookAt(targetPos);
 
         //Distance between ENEMY & PLAYER
         var distance = Vector3.Distance(transform.position, _zombie.Target.transform.position);
@@ -32,8 +34,10 @@ public class Chase : BaseState
         }
 
         //Player is out of range in enemy vision
-        else if (distance >= GameSettings.Instance.attackRange)
+        else
         {
+            //transform.LookAt(targetPos);
+            transform.Translate(Vector3.forward * Time.deltaTime * GameSettings.Instance.zombieSpeed * 5);
             return typeof(Patrol);
         }
 

@@ -35,10 +35,11 @@ public class DrawProjection : MonoBehaviour
             direction = (hit.point - playerThrow.throwPoint.position).normalized;
         }
         Vector3 startVel = direction * playerThrow.throwForce + transform.up * playerThrow.throwUpwardForce;
+        // Prediction throwing
         for(float t = 0; t< points; t+= timeBetweenPoints)
         {
             Vector3 newPos =  startPos + t * startVel;
-            newPos.y = startPos.y + startVel.y * t + Physics.gravity.y / 2f * t * t;
+            newPos.y = startPos.y + startVel.y * t + Physics.gravity.y *0.5f * t * t;
             pointPos.Add(newPos);
 
             if (Physics.OverlapSphere(newPos, 1, CollidableLayers).Length > 0)
