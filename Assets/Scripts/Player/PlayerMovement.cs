@@ -39,6 +39,8 @@ public class PlayerMovement : MonoBehaviour
         instance = this;
         characterController = GetComponent<CharacterController>();
 
+        GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
+
         standingHeight = characterController.height;
         crouchHeight = standingHeight / 4;
 
@@ -49,6 +51,11 @@ public class PlayerMovement : MonoBehaviour
         // Lock cursor 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+
+    private void OnDestroy()
+    {
+        GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
     }
 
     void Update()
@@ -144,5 +151,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision) {
         // collision.rigidbody?.AddForceAtPosition(velocity, collision.GetContacts());
+    }
+    
+    private void OnGameStateChanged(GameState newGameState)
+    {
+        enabled = newGameState == GameState.Gameplay;
     }
 }
