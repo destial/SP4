@@ -14,39 +14,22 @@ public class Patrol : BaseState
     private Quaternion _desiredRotation;
     private Vector3 _direction;
     private Zombie _zombie;
-
-    //Animation States
-    const string WALK = "Zombie_Walk";
-
-    
-    
-
-
+    private Vector3 noisePos = Vector3.zero;
+    private float timer = 5f;
     public Patrol(Zombie zombie):base(zombie.gameObject)
     {
         _zombie = zombie;
-        animator = _zombie.GetComponentInChildren<Animator>();
-        animationManager = _zombie.GetComponent<AnimationManager>();
     }
 
-
-    public override Type Tick()
+    public override Type Tick() // Update
     {
         var chaseTarget = checkForAggro();
         if(chaseTarget != null)
         {
-            Debug.Log("Chasing Player");
+            Debug.Log("Chasing!");
             _zombie.setTarget(chaseTarget);
-            
             return typeof(Chase);
         }
-
-        else if(chaseTarget == null)
-        {
-            animationManager.ChangeAnimationState(WALK);
-            //animator.SetBool("isPatrolling", true);
-        }
-
 
        if(_destination.HasValue == false || Vector3.Distance(transform.position,_destination.Value) <= stopDistance)
         {
@@ -112,6 +95,19 @@ public class Patrol : BaseState
         var direction = angle * Vector3.forward;
         var pos = transform.position;
         pos.y += 1;
+        Collider[] colliders = Physics.OverlapSphere(transform.position, aggroRadius); // Stores all colliders that are within enemy's radius
+
+        foreach (Collider near in colliders)
+        {
+            if(near.gameObject.GetComponent<Pipebomb>() != null)
+            {
+                return near.gameObject.transform;
+            }
+        }
+
+
+
+        // Field of view
         for (var i = 0; i < 24; i++)
         {
             if (Physics.Raycast(pos, direction, out hit, aggroRadius))
@@ -122,10 +118,9 @@ public class Patrol : BaseState
                     var drone = hit.collider.GetComponentInParent<PlayerMovement>();
                     if (drone != null)
                     {
-                        //When zombie FOUND player
+                        //When zombie hit player
                         Debug.Log("Player Found");
                         Debug.DrawLine(pos, direction * hit.distance, Color.red);
-                        //animator.SetBool("isPatrolling", false);
                         return drone.transform;
                     }
                 }

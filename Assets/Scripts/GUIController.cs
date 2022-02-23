@@ -6,6 +6,7 @@ public class GUIController : MonoBehaviour
 {
     public static GUIController instance;
     public GameObject crosshair;
+    public GameObject e;
     // Start is called before the first frame update
     void Start()
     {

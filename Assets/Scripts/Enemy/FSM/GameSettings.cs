@@ -11,7 +11,7 @@ public class GameSettings : MonoBehaviour
     [SerializeField] public GameObject zombieProjectilePrefab;
 
     public static GameSettings Instance;
-
+    
     private void Start()
     {
         if (Instance != null) Destroy(gameObject);

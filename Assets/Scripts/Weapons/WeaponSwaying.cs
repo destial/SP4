@@ -12,9 +12,13 @@ public class WeaponSwaying : MonoBehaviour
     public Vector3 center;
 
     private Camera fpsCam;
+    private float originalFov;
+    private float originalLookSpeed;
     private void Start() {
         original = transform.localPosition;
         fpsCam = GetComponentInParent<Camera>();
+        originalFov = fpsCam.fieldOfView;
+        originalLookSpeed = fpsCam.GetComponentInParent<PlayerMovement>().lookSpeed;
     }
 
     private void Update()
@@ -22,12 +26,16 @@ public class WeaponSwaying : MonoBehaviour
         if (Input.GetMouseButton(1)) {
             Vector3 scope = GetComponent<Weapon>().scopePoint.transform.localPosition;
             transform.localPosition = Vector3.Slerp(transform.localPosition, scope, smooth * Time.deltaTime);
-            GUIController.instance.crosshair.SetActive(false);
+            fpsCam.fieldOfView = Mathf.Lerp(fpsCam.fieldOfView, 15, smooth * Time.deltaTime);
+            fpsCam.GetComponentInParent<PlayerMovement>().lookSpeed = originalLookSpeed * 0.5f;
+            //GUIController.instance.crosshair.SetActive(false);
         }
         else
         {
             transform.localPosition = Vector3.Slerp(transform.localPosition, original, smooth * Time.deltaTime);
-            GUIController.instance.crosshair.SetActive(true);
+            fpsCam.fieldOfView = Mathf.Lerp(fpsCam.fieldOfView, originalFov, smooth * Time.deltaTime);
+            fpsCam.GetComponentInParent<PlayerMovement>().lookSpeed = originalLookSpeed;
+            //GUIController.instance.crosshair.SetActive(true);
         }
         float mouseX = Input.GetAxisRaw("Mouse X") * multiplier;
         float mouseY = Input.GetAxisRaw("Mouse Y") * multiplier;

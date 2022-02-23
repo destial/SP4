@@ -5,23 +5,30 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float speed = 10f;
-    public Vector3 velocity;
-    public Vector3 travelled;
+    [HideInInspector] public Vector3 velocity;
+    private Vector3 travelled;
+    private Rigidbody rb;
+    [HideInInspector] public float damage;
     // Start is called before the first frame update
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody>();
+        rb.velocity = velocity * speed;
     }
 
     // Update is called once per frame
     void Update()
     {
-        travelled += velocity * speed * Time.deltaTime;
-        gameObject.transform.position += velocity * speed * Time.deltaTime;
+        travelled += rb.velocity * Time.deltaTime;
         if (Mathf.Abs(travelled.x) > 50 ||
-                Mathf.Abs(travelled.y) > 50 ||
-                Mathf.Abs(travelled.z) > 50) {
-                Destroy(gameObject);
-            }
+            Mathf.Abs(travelled.y) > 50 ||
+            Mathf.Abs(travelled.z) > 50) {
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision) {
+        // Debug.Log("Collision bullet");
+        
     }
 }
