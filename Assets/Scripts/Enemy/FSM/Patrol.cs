@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.AI;
 
 public class Patrol : BaseState
 {
@@ -16,6 +17,8 @@ public class Patrol : BaseState
     private Zombie _zombie;
     private Vector3 noisePos = Vector3.zero;
     private float timer = 5f;
+    private Vector3 lastEnemyPos;
+    
     public Patrol(Zombie zombie):base(zombie.gameObject)
     {
         _zombie = zombie;
@@ -30,7 +33,7 @@ public class Patrol : BaseState
             _zombie.setTarget(chaseTarget);
             return typeof(Chase);
         }
-
+        
        if(_destination.HasValue == false || Vector3.Distance(transform.position,_destination.Value) <= stopDistance)
         {
             findRandomDestination();
@@ -75,12 +78,24 @@ public class Patrol : BaseState
         Vector3 testPosition = (transform.position + (transform.forward * 4f)) 
             + new Vector3(UnityEngine.Random.Range(-4.5f, 4.5f), 0, UnityEngine.Random.Range(-4.5f, 4.5f));
 
-        _destination = new Vector3(testPosition.x, 1f, testPosition.z);
+        _destination = new Vector3(testPosition.x, 0f, testPosition.z);
 
         _direction = Vector3.Normalize(_destination.Value - transform.position);
         _direction = new Vector3(_direction.x, 0f, _direction.z);
         _desiredRotation = Quaternion.LookRotation(_direction);
         Debug.Log("Found Random Direction");
+    }
+
+    private void CheckNoise(Vector3 target)
+    {
+        lastEnemyPos = transform.position;
+        _direction = Vector3.Normalize(target - transform.position);
+        _direction = new Vector3(_direction.x, 0f, _direction.z); // so it does not rotate on the y-axis
+        Vector3 newPos = transform.position +  _direction;
+        _destination = new Vector3(newPos.x, 0f, newPos.z);
+        _desiredRotation = Quaternion.LookRotation(_direction);
+        
+        Debug.Log("checking noise");
     }
 
     private Transform checkForAggro()
@@ -89,7 +104,7 @@ public class Patrol : BaseState
         Quaternion stepAngle = Quaternion.AngleAxis(5, Vector3.up);
 
         float aggroRadius = 40f;
-
+        
         RaycastHit hit;
         var angle = transform.rotation * startingAngle;
         var direction = angle * Vector3.forward;
@@ -104,7 +119,17 @@ public class Patrol : BaseState
                 return near.gameObject.transform;
             }
         }
-
+        foreach(Stone stone in EntityManager.Instance.GetComponentsInChildren<Stone>())
+        {
+            if(stone.isActiveAndEnabled && stone.IsGrounded())
+            {
+                if (Vector3.Distance(stone.getLastPos(), transform.position) <= aggroRadius)
+                {
+                    CheckNoise(stone.getLastPos());
+                    stone.enabled = false;
+                }
+            }
+        }
 
 
         // Field of view

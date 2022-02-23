@@ -36,7 +36,6 @@ public class PlayerThrowing : MonoBehaviour
         if (Input.GetKeyDown(throwKey))
         {
             lineRender.enabled = true;
-            
         }
         else if (Input.GetKeyUp(throwKey) && canThrow && totalThrows > 0)
         {

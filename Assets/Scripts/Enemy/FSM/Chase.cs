@@ -32,7 +32,6 @@ public class Chase : BaseState
         {
             Debug.Log("ATTACKED PLAYER");
         }
-
         //Player is out of range in enemy vision
         else
         {
@@ -40,7 +39,6 @@ public class Chase : BaseState
             transform.Translate(Vector3.forward * Time.deltaTime * GameSettings.Instance.zombieSpeed * 5);
             return typeof(Patrol);
         }
-
         return null;
     }
 }
