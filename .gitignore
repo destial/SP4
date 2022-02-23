@@ -36,3 +36,6 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+ProjectSettings/ProjectVersion.txt
+ProjectSettings/EditorBuildSettings.asset
+UserSettings/EditorUserSettings.asset
