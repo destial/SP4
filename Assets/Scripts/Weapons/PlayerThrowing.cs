@@ -16,15 +16,15 @@ public class PlayerThrowing : MonoBehaviour
     public float coolDown;
 
     [Header("Throwing")]
-    public KeyCode throwKey = KeyCode.Mouse0;
+    public KeyCode throwKey = KeyCode.Mouse3;
     public float throwForce;
     public float throwUpwardForce;
 
-
+    private LayerMask collideableLayers;
     private LineRenderer lineRender;
 
     bool canThrow;
-    bool released = false;
+    bool released = true;
     private void Start()
     {
         canThrow = true;
@@ -42,6 +42,11 @@ public class PlayerThrowing : MonoBehaviour
             lineRender.enabled = false;
             Throw();
         }
+        else if (!Input.GetKey(throwKey))
+        {
+            lineRender.enabled = false;
+        }
+        DrawProjection.DrawLine(lineRender, this, camera, transform, collideableLayers);
     }
 
     private void Throw()

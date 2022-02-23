@@ -26,12 +26,25 @@ public class Patrol : BaseState
 
     public override Type Tick() // Update
     {
+        Debug.Log("Patroling!");
         var chaseTarget = checkForAggro();
         if(chaseTarget != null)
         {
-            Debug.Log("Chasing!");
             _zombie.setTarget(chaseTarget);
-            return typeof(Chase);
+            if (chaseTarget.GetComponentInParent<PlayerMovement>() != null)
+            {
+                Debug.Log("Chasing!");
+                
+                return typeof(Chase);
+            }
+            else if(chaseTarget.GetComponentInParent<Pipebomb>() != null)
+            {
+                return typeof(Chase);
+            }
+            else
+            {
+                return typeof(Seeking);
+            }
         }
         
        if(_destination.HasValue == false || Vector3.Distance(transform.position,_destination.Value) <= stopDistance)
@@ -110,26 +123,38 @@ public class Patrol : BaseState
         var direction = angle * Vector3.forward;
         var pos = transform.position;
         pos.y += 1;
+
         Collider[] colliders = Physics.OverlapSphere(transform.position, aggroRadius); // Stores all colliders that are within enemy's radius
 
+        // Check for objects
         foreach (Collider near in colliders)
         {
             if(near.gameObject.GetComponent<Pipebomb>() != null)
             {
                 return near.gameObject.transform;
             }
-        }
-        foreach(Stone stone in EntityManager.Instance.GetComponentsInChildren<Stone>())
-        {
-            if(stone.isActiveAndEnabled && stone.IsGrounded())
+            else if(near.gameObject.GetComponent<Stone>() != null && near.gameObject.GetComponent<Stone>().IsGrounded())
             {
-                if (Vector3.Distance(stone.getLastPos(), transform.position) <= aggroRadius)
+                if (Vector3.Distance(near.gameObject.transform.position, transform.position) <= aggroRadius)
                 {
-                    CheckNoise(stone.getLastPos());
-                    stone.enabled = false;
+                    near.gameObject.GetComponent<Stone>().enabled = false;
+                    return near.gameObject.transform;
                 }
+                    
+                continue;
             }
         }
+        //foreach(Stone stone in EntityManager.Instance.GetComponentsInChildren<Stone>())
+        //{
+        //    if(stone.isActiveAndEnabled && stone.IsGrounded())
+        //    {
+        //        if (Vector3.Distance(stone.getLastPos(), transform.position) <= aggroRadius)
+        //        {
+        //            CheckNoise(stone.getLastPos());
+        //            stone.enabled = false;
+        //        }
+        //    }
+        //}
 
 
         // Field of view

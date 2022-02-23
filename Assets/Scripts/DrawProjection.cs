@@ -2,28 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DrawProjection : MonoBehaviour
+public static class DrawProjection
 {
-    PlayerThrowing playerThrow;
-    LineRenderer lineRender;
+    public static int points = 50;
 
-    public int points = 50;
-
-    public float timeBetweenPoints = 0.1f;
-
-    public Camera camera;
-
-    public LayerMask CollidableLayers;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        playerThrow = GetComponent<PlayerThrowing>();
-        lineRender = GetComponent<LineRenderer>();
-    }
-
+    public static float timeBetweenPoints = 0.1f;
     // Update is called once per frame
-    void Update()
+    public static void DrawLine(in LineRenderer lineRender, in PlayerThrowing playerThrow, in Camera camera, in Transform transform, in LayerMask collide)
     {
         lineRender.positionCount = points;
         List<Vector3> pointPos = new List<Vector3>();
@@ -42,7 +27,7 @@ public class DrawProjection : MonoBehaviour
             newPos.y = startPos.y + startVel.y * t + Physics.gravity.y *0.5f * t * t;
             pointPos.Add(newPos);
 
-            if (Physics.OverlapSphere(newPos, 1, CollidableLayers).Length > 0)
+            if (Physics.OverlapSphere(newPos, 1, collide).Length > 0)
             {
                 lineRender.positionCount = pointPos.Count;
                 break;
