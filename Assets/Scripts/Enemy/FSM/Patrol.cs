@@ -20,6 +20,21 @@ public class Patrol : BaseState
     //Animator Vars
     const string WALK = "Zombie_Walk";
 
+    //void Start()
+    //{
+    //    GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
+    //}
+
+    //private void OnDestroy()
+    //{
+    //    GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
+    //}
+
+    //private void OnGameStateChanged(GameState newGameState)
+    //{
+    //    enabled = newGameState == GameState.Gameplay;
+    //}
+
     public Patrol(Zombie zombie):base(zombie.gameObject)
     {
         _zombie = zombie;
@@ -149,5 +164,4 @@ public class Patrol : BaseState
 
         return null;
     }
-
 }

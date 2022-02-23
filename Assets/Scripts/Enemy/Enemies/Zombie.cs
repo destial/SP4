@@ -11,13 +11,12 @@ public class Zombie : MonoBehaviour
 
     public StateMachine StateMachine => GetComponent<StateMachine>();
 
-
-    void Start()
+    private void Start()
     {
         InitializeStateMachine();
     }
 
-    private void InitializeStateMachine()
+    public void InitializeStateMachine()
     {
         var states = new Dictionary<Type, BaseState>()
         {
@@ -28,6 +27,11 @@ public class Zombie : MonoBehaviour
         };
 
         GetComponent<StateMachine>().setState(states);
+    }
+
+    private void Update()
+    {
+        GetComponent<Animator>().enabled = GameStateManager.Instance.CurrentGameState != GameState.Paused;
     }
 
 
