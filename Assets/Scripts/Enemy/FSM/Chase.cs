@@ -7,9 +7,15 @@ public class Chase : BaseState
 {
     private Zombie _zombie;
 
+    //Animation Vars
+    const string RUN = "Zombie_Run";
+    const string ATTACK = "Zombie_Attack";
+
+
     public Chase(Zombie zombie) : base(zombie.gameObject)
     {
         _zombie = zombie;
+        animationManager = _zombie.GetComponent<AnimationManager>();
     }
 
     public override Type Tick()
@@ -28,17 +34,18 @@ public class Chase : BaseState
         Debug.Log("CHASING PLAYER");
         //transform.Translate(Vector3.forward * Time.deltaTime * GameSettings.Instance.zombieSpeed * 5);
         //ATTACK, When enemy reached player within distance
-        if (distance <= GameSettings.Instance.aggroRadius)
+        if(distance <= GameSettings.Instance.attackRange)
         {
-            Debug.Log("Chasing ! ! !");
+            animationManager.ChangeAnimationState(ATTACK);
+            Debug.Log("ATTACKED PLAYER");
+        }
+        else if(distance <= GameSettings.Instance.aggroRadius)
+        {
+            Debug.Log("CHASING PLAYER");
             transform.Translate(Vector3.forward * Time.deltaTime * GameSettings.Instance.zombieSpeed * 5);
-            // Chasing
+            animationManager.ChangeAnimationState(RUN);
         }
-        else if(distance <= GameSettings.Instance.attackRange)
-        {
-            Debug.Log("Attacking ! ! !");
-            // Attack
-        }
+
         //Player is out of range in enemy vision
         else
         {

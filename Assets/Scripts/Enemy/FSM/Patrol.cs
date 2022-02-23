@@ -19,9 +19,29 @@ public class Patrol : BaseState
     private float timer = 5f;
     private Vector3 lastEnemyPos;
     
+
+    //Animator Vars
+    const string WALK = "Zombie_Walk";
+
+    //void Start()
+    //{
+    //    GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
+    //}
+
+    //private void OnDestroy()
+    //{
+    //    GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
+    //}
+
+    //private void OnGameStateChanged(GameState newGameState)
+    //{
+    //    enabled = newGameState == GameState.Gameplay;
+    //}
+
     public Patrol(Zombie zombie):base(zombie.gameObject)
     {
         _zombie = zombie;
+        animationManager = _zombie.GetComponent<AnimationManager>();
     }
 
     public override Type Tick() // Update
@@ -30,6 +50,7 @@ public class Patrol : BaseState
         var chaseTarget = checkForAggro();
         if(chaseTarget != null)
         {
+            Debug.Log("SWITCH TO CHASE STATE!");
             _zombie.setTarget(chaseTarget);
             if (chaseTarget.GetComponentInParent<PlayerMovement>() != null)
             {
@@ -47,6 +68,12 @@ public class Patrol : BaseState
             }
         }
         
+
+        else
+        {
+            animationManager.ChangeAnimationState(WALK);
+        }
+
        if(_destination.HasValue == false || Vector3.Distance(transform.position,_destination.Value) <= stopDistance)
         {
             findRandomDestination();
@@ -189,5 +216,4 @@ public class Patrol : BaseState
 
         return null;
     }
-
 }
