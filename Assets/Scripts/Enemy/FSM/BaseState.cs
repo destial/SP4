@@ -9,6 +9,7 @@ public abstract class BaseState
     {
         this.gameObject = gameObject;
         this.transform = gameObject.transform;
+
     }
 
     protected GameObject gameObject;
@@ -18,6 +19,4 @@ public abstract class BaseState
     public AnimationManager animationManager { get; set; }
 
     public abstract Type Tick();
-
-    
 }
