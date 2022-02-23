@@ -11,6 +11,7 @@ public class Zombie : MonoBehaviour
 
     public StateMachine StateMachine => GetComponent<StateMachine>();
 
+
     void Start()
     {
         InitializeStateMachine();
@@ -21,7 +22,8 @@ public class Zombie : MonoBehaviour
         var states = new Dictionary<Type, BaseState>()
         {
             { typeof(Patrol), new Patrol(this)},
-            { typeof(Chase), new Chase(this)}
+            { typeof(Chase), new Chase(this)},
+            { typeof(Idle), new Idle(this)}
 
         };
 

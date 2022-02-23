@@ -16,9 +16,14 @@ public class Patrol : BaseState
     private Zombie _zombie;
     private Vector3 noisePos = Vector3.zero;
     private float timer = 5f;
+
+    //Animator Vars
+    const string WALK = "Zombie_Walk";
+
     public Patrol(Zombie zombie):base(zombie.gameObject)
     {
         _zombie = zombie;
+        animationManager = _zombie.GetComponent<AnimationManager>();
     }
 
     public override Type Tick() // Update
@@ -26,9 +31,14 @@ public class Patrol : BaseState
         var chaseTarget = checkForAggro();
         if(chaseTarget != null)
         {
-            Debug.Log("Chasing!");
+            Debug.Log("SWITCH TO CHASE STATE!");
             _zombie.setTarget(chaseTarget);
             return typeof(Chase);
+        }
+
+        else
+        {
+            animationManager.ChangeAnimationState(WALK);
         }
 
        if(_destination.HasValue == false || Vector3.Distance(transform.position,_destination.Value) <= stopDistance)
