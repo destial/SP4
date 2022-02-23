@@ -28,14 +28,14 @@ public class WeaponSwaying : MonoBehaviour
             transform.localPosition = Vector3.Slerp(transform.localPosition, scope, smooth * Time.deltaTime);
             fpsCam.fieldOfView = Mathf.Lerp(fpsCam.fieldOfView, 15, smooth * Time.deltaTime);
             fpsCam.GetComponentInParent<PlayerMovement>().lookSpeed = originalLookSpeed * 0.5f;
-            //GUIController.instance.crosshair.SetActive(false);
+            GUIController.instance.crosshair.SetActive(false);
         }
         else
         {
             transform.localPosition = Vector3.Slerp(transform.localPosition, original, smooth * Time.deltaTime);
             fpsCam.fieldOfView = Mathf.Lerp(fpsCam.fieldOfView, originalFov, smooth * Time.deltaTime);
             fpsCam.GetComponentInParent<PlayerMovement>().lookSpeed = originalLookSpeed;
-            //GUIController.instance.crosshair.SetActive(true);
+            GUIController.instance.crosshair.SetActive(true);
         }
         float mouseX = Input.GetAxisRaw("Mouse X") * multiplier;
         float mouseY = Input.GetAxisRaw("Mouse Y") * multiplier;
