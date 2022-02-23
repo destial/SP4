@@ -7,7 +7,7 @@ public class Patrol : BaseState
 {
 
     private Vector3? _destination;
-    private float stopDistance = 1f;
+    private float stopDistance = 1.5f;
     private float turnSpeed = 1f;
     private readonly LayerMask _layerMask = LayerMask.NameToLayer("Walls");
     private float _rayDistance = 3.5f;
@@ -19,21 +19,6 @@ public class Patrol : BaseState
 
     //Animator Vars
     const string WALK = "Zombie_Walk";
-
-    //void Start()
-    //{
-    //    GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
-    //}
-
-    //private void OnDestroy()
-    //{
-    //    GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
-    //}
-
-    //private void OnGameStateChanged(GameState newGameState)
-    //{
-    //    enabled = newGameState == GameState.Gameplay;
-    //}
 
     public Patrol(Zombie zombie):base(zombie.gameObject)
     {
@@ -51,24 +36,25 @@ public class Patrol : BaseState
             return typeof(Chase);
         }
 
-        else
-        {
-            animationManager.ChangeAnimationState(WALK);
-        }
+        animationManager.ChangeAnimationState(WALK);
 
-       if(_destination.HasValue == false || Vector3.Distance(transform.position,_destination.Value) <= stopDistance)
+        if (_destination.HasValue == false || Vector3.Distance(transform.position,_destination.Value) <= stopDistance)
         {
+            Debug.Log("WALL COLLIDED");
             findRandomDestination();
         }
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, _desiredRotation, Time.deltaTime * turnSpeed);
+        //transform.rotation = Quaternion.Slerp(transform.rotation, _desiredRotation, Time.deltaTime * turnSpeed);
 
         if(isForwardBlocked())
         {
+            //findRandomDestination();
+            Debug.Log("FORWARD BLOCKED TRUE!");
             transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRotation, 0.2f);
         }
         else
         {
+            Debug.Log("FORWARD BLOCKED FALSE!");
             transform.Translate(Vector3.forward * Time.deltaTime * GameSettings.Instance.zombieSpeed);
         }
 
@@ -97,10 +83,10 @@ public class Patrol : BaseState
 
     private void findRandomDestination()
     {
-        Vector3 testPosition = (transform.position + (transform.forward * 4f)) 
+        Vector3 testPosition = (transform.forward * 4f)
             + new Vector3(UnityEngine.Random.Range(-4.5f, 4.5f), 0, UnityEngine.Random.Range(-4.5f, 4.5f));
 
-        _destination = new Vector3(testPosition.x, 1f, testPosition.z);
+        _destination = new Vector3(testPosition.x, transform.position.y, testPosition.z);
 
         _direction = Vector3.Normalize(_destination.Value - transform.position);
         _direction = new Vector3(_direction.x, 0f, _direction.z);
@@ -108,11 +94,12 @@ public class Patrol : BaseState
         Debug.Log("Found Random Direction");
     }
 
+    Quaternion startingAngle = Quaternion.AngleAxis(-40, Vector3.up);
+    Quaternion stepAngle = Quaternion.AngleAxis(5, Vector3.up);
+
     private Transform checkForAggro()
     {
-        Quaternion startingAngle = Quaternion.AngleAxis(-40, Vector3.up);
-        Quaternion stepAngle = Quaternion.AngleAxis(5, Vector3.up);
-
+        
         float aggroRadius = 40f;
 
         RaycastHit hit;
@@ -130,8 +117,6 @@ public class Patrol : BaseState
             }
         }
 
-
-
         // Field of view
         for (var i = 0; i < 24; i++)
         {
@@ -143,8 +128,7 @@ public class Patrol : BaseState
                     var drone = hit.collider.GetComponentInParent<PlayerMovement>();
                     if (drone != null)
                     {
-                        //When zombie hit player
-                        Debug.Log("Player Found");
+                        //When zombie hit p4eund");
                         Debug.DrawLine(pos, direction * hit.distance, Color.red);
                         return drone.transform;
                     }
