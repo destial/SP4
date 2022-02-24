@@ -19,7 +19,6 @@ public class PlayerShooting : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.R))
         {
             reloadInput?.Invoke();
-
         }
     }
 }
