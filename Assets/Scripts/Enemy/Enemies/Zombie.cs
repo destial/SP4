@@ -21,9 +21,7 @@ public class Zombie : MonoBehaviour
         var states = new Dictionary<Type, BaseState>()
         {
             { typeof(Patrol), new Patrol(this)},
-            { typeof(Chase), new Chase(this)},
-            { typeof(Idle), new Idle(this)}
-
+            { typeof(Chase), new Chase(this)}
         };
 
         GetComponent<StateMachine>().setState(states);

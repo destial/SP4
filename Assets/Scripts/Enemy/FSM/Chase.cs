@@ -27,31 +27,22 @@ public class Chase : BaseState
                                         _zombie.Target.position.z);
         //transform.LookAt(_zombie.Target);
         transform.LookAt(targetPos);
+        transform.Translate(Vector3.forward * Time.deltaTime * GameSettings.Instance.zombieSpeed * 5);
 
         //Distance between ENEMY & PLAYER
         var distance = Vector3.Distance(transform.position, _zombie.Target.transform.position);
 
-        Debug.Log("CHASING PLAYER");
-
         //ATTACK, When enemy reached player within distance
-        if (distance <= GameSettings.Instance.attackRange)
+        if (distance <= GameSettings.Instance.aggroRadius)
         {
             animationManager.ChangeAnimationState(ATTACK);
             Debug.Log("ATTACKED PLAYER");
         }
 
-        else if(distance <= GameSettings.Instance.aggroRadius)
+        else
         {
             Debug.Log("CHASING PLAYER");
             animationManager.ChangeAnimationState(RUN);
-        }
-
-        //Player is out of range in enemy vision
-        else
-        {
-            //transform.LookAt(targetPos);
-            transform.Translate(Vector3.forward * Time.deltaTime * GameSettings.Instance.zombieSpeed * 5);
-            return typeof(Patrol);
         }
 
         return null;
