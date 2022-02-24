@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public static PlayerMovement instance;
 
+    public bool disabled = false;
     public float walkingSpeed = 7.5f;
     public float runningSpeed = 11.5f;
     public float crouchingSpeed = 3.5f;
@@ -39,8 +40,6 @@ public class PlayerMovement : MonoBehaviour
         instance = this;
         characterController = GetComponent<CharacterController>();
 
-        GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
-
         standingHeight = characterController.height;
         crouchHeight = standingHeight / 4;
 
@@ -53,59 +52,69 @@ public class PlayerMovement : MonoBehaviour
         Cursor.visible = false;
     }
 
-    private void OnDestroy()
-    {
-        GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
-    }
-
     void Update()
     {
-        // We are grounded, so recalculate move direction based on axes
-        Vector3 forward = transform.TransformDirection(Vector3.forward);
-        Vector3 right = transform.TransformDirection(Vector3.right);
-
-        // Press Left Shift to run
-        bool isRunning = Input.GetKey(KeyCode.LeftShift);
-        float curSpeedX = canMove ? (isCrouching ? crouchingSpeed : isRunning ? runningSpeed : walkingSpeed) * Input.GetAxis("Vertical") : 0;
-        float curSpeedY = canMove ? (characterController.isGrounded ? (isCrouching ? crouchingSpeed : isRunning ? runningSpeed : walkingSpeed) : lookSpeed) * Input.GetAxis("Horizontal") : 0;
-        float movementDirectionY = velocity.y;
-        velocity = (forward * curSpeedX) + (right * curSpeedY);
-
-        // Press Left Control to crouch
-        if (canCrouch)
+        if ((GameStateManager.Instance.CurrentGameState == GameState.Paused) || (GameStateManager.Instance.CurrentGameState == GameState.Keypad))
         {
-            HandleCrouch();
-        }
-
-
-        if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
-        {
-            velocity.y = jumpSpeed;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            return;
         }
         else
         {
-            velocity.y = movementDirectionY;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
 
-        // Apply gravity. Gravity is multiplied by deltaTime twice (once here, and once below
-        // when the velocity is multiplied by deltaTime). This is because gravity should be applied
-        // as an acceleration (ms^-2)
-        //if (!characterController.isGrounded)
-        //{
-        velocity.y -= gravity * Time.deltaTime;
-        //}
-
-        // Move the controller
-        characterController.Move(velocity * Time.deltaTime);
-        // characterController.SimpleMove(velocity);
-
-        // Player and Camera rotation
-        if (canMove)
+        if (!disabled)
         {
-            rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
-            rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
-            playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
-            transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
+            // We are grounded, so recalculate move direction based on axes
+            Vector3 forward = transform.TransformDirection(Vector3.forward);
+            Vector3 right = transform.TransformDirection(Vector3.right);
+
+            // Press Left Shift to run
+            bool isRunning = Input.GetKey(KeyCode.LeftShift);
+            float curSpeedX = canMove ? (isCrouching ? crouchingSpeed : isRunning ? runningSpeed : walkingSpeed) * Input.GetAxis("Vertical") : 0;
+            float curSpeedY = canMove ? (characterController.isGrounded ? (isCrouching ? crouchingSpeed : isRunning ? runningSpeed : walkingSpeed) : lookSpeed) * Input.GetAxis("Horizontal") : 0;
+            float movementDirectionY = velocity.y;
+            velocity = (forward * curSpeedX) + (right * curSpeedY);
+
+            // Press Left Control to crouch
+            if (canCrouch)
+            {
+                HandleCrouch();
+            }
+
+
+            if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
+            {
+                velocity.y = jumpSpeed;
+            }
+            else
+            {
+                velocity.y = movementDirectionY;
+            }
+
+            // Apply gravity. Gravity is multiplied by deltaTime twice (once here, and once below
+            // when the velocity is multiplied by deltaTime). This is because gravity should be applied
+            // as an acceleration (ms^-2)
+            //if (!characterController.isGrounded)
+            //{
+            velocity.y -= gravity * Time.deltaTime;
+            //}
+
+            // Move the controller
+            characterController.Move(velocity * Time.deltaTime);
+            // characterController.SimpleMove(velocity);
+
+            // Player and Camera rotation
+            if (canMove)
+            {
+                rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
+                rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
+                playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
+                transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
+            }
         }
     }
 
@@ -151,10 +160,5 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision) {
         // collision.rigidbody?.AddForceAtPosition(velocity, collision.GetContacts());
-    }
-    
-    private void OnGameStateChanged(GameState newGameState)
-    {
-        enabled = newGameState == GameState.Gameplay;
     }
 }

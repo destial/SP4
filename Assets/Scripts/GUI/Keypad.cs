@@ -31,6 +31,7 @@ public class Keypad : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             PlayerMovement.instance.canMove = true;
+            GameStateManager.Instance.SetState(GameState.Gameplay);
         }
 
         if (doorOpen)
@@ -56,6 +57,7 @@ public class Keypad : MonoBehaviour
                     Cursor.lockState = CursorLockMode.None;
                     Cursor.visible = true;
                     PlayerMovement.instance.canMove = false;
+                    GameStateManager.Instance.SetState(GameState.Keypad);
                 }
             }
 
@@ -127,6 +129,7 @@ public class Keypad : MonoBehaviour
                     Cursor.lockState = CursorLockMode.Locked;
                     Cursor.visible = false;
                     PlayerMovement.instance.canMove = true;
+                    GameStateManager.Instance.SetState(GameState.Gameplay);
                 }
             }
         }
