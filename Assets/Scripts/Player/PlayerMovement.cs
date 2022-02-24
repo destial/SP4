@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if ((GameStateManager.Instance.CurrentGameState == GameState.Paused) || (GameStateManager.Instance.CurrentGameState == GameState.Keypad))
+        if (GameStateManager.Instance.CurrentGameState != GameState.Gameplay)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -92,8 +92,15 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                velocity.y = movementDirectionY;
+                //Vector3 origin = new Vector3(transform.position.x, transform.position.y + (characterController.height / 2f), transform.position.z);
+                //if (Physics.SphereCast(origin , characterController.radius / 2f, Vector3.up, out RaycastHit hitInfo, 1f)) {
+                //    velocity.y = -movementDirectionY;
+                //} else {
+                    velocity.y = movementDirectionY;
+                //}
             }
+            
+            
 
             // Apply gravity. Gravity is multiplied by deltaTime twice (once here, and once below
             // when the velocity is multiplied by deltaTime). This is because gravity should be applied
@@ -156,9 +163,5 @@ public class PlayerMovement : MonoBehaviour
 
         isCrouching = !isCrouching;
         During_Player_Crouch_Animation = false;
-    }
-
-    private void OnCollisionEnter(Collision collision) {
-        // collision.rigidbody?.AddForceAtPosition(velocity, collision.GetContacts());
     }
 }

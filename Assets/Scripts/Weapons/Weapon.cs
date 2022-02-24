@@ -158,7 +158,7 @@ public class Weapon : MonoBehaviour
                     // BulletManager.instance.Shoot(firingPoint.position, end);
                     weaponData.ammo--;
                     lastLineRender = false;
-                    recoil.RecoilFire();
+                    recoil.RecoilFire(weaponData);
                 }
             }
         }

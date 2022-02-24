@@ -5,7 +5,6 @@ using UnityEngine;
 public class Teleporter : MonoBehaviour
 {
     public Vector3 destination;
-    private bool teleported = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,17 +19,8 @@ public class Teleporter : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         PlayerMovement player = other.gameObject.GetComponent<PlayerMovement>();
         if (player != null) {
-            Debug.Log(other.gameObject.name);
-            teleported = true;
+            StartCoroutine(PlayerManager.instance.GetComponent<PlayerTeleport>().DelayTelport(destination));
             LevelManager.instance.currentLevel--;
         }
     }
-
-    private void LateUpdate() {
-        if (teleported) {
-            PlayerManager.instance.transform.position = destination;
-            teleported = false;
-        }
-    }
-
 }
