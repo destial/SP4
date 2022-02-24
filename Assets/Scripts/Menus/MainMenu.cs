@@ -8,7 +8,7 @@ public class MainMenu : MonoBehaviour
     public void PlayGame()
     {
         SceneManager.LoadScene("DouglasScene");
-
+        GameStateManager.Instance.SetState(GameState.Gameplay);
     }
 
     public void QuitGame()
