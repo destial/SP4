@@ -9,7 +9,7 @@ public class PlayerShooting : MonoBehaviour
     public static Action reloadInput;
     
     // Update is called once per frame
-    private void LateUpdate()
+    private void FixedUpdate()
     {
         if (GameStateManager.Instance.CurrentGameState != GameState.Gameplay) return;
         if(Input.GetMouseButton(0))
