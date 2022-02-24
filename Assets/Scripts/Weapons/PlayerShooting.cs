@@ -11,6 +11,7 @@ public class PlayerShooting : MonoBehaviour
     // Update is called once per frame
     private void LateUpdate()
     {
+        if (GameStateManager.Instance.CurrentGameState != GameState.Gameplay) return;
         if(Input.GetMouseButton(0))
         {
             shootInput?.Invoke();

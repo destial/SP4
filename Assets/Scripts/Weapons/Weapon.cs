@@ -177,6 +177,7 @@ public class Weapon : MonoBehaviour
                 loadingTime = 0f;
             }
         }
+        if (GameStateManager.Instance.CurrentGameState != GameState.Gameplay) return;
         if (Input.GetKeyDown(KeyCode.Q)) {
             Drop();
             return;
