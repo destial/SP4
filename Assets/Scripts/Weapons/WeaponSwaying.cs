@@ -37,7 +37,7 @@ public class WeaponSwaying : MonoBehaviour
             if (fpsCam.fieldOfView - scopeFov <= 0.01f) fpsCam.fieldOfView = scopeFov;
             else fpsCam.fieldOfView = Mathf.Lerp(fpsCam.fieldOfView, scopeFov, smooth * Time.deltaTime);
             fpsCam.GetComponentInParent<PlayerMovement>().lookSpeed = originalLookSpeed * 0.5f;
-            //GUIController.instance.crosshair.SetActive(false);
+            GUIController.instance.crosshair.SetActive(false);
         }
         else
         {
@@ -47,7 +47,7 @@ public class WeaponSwaying : MonoBehaviour
             if (originalFov - fpsCam.fieldOfView <= 0.01f) fpsCam.fieldOfView = originalFov;
             else fpsCam.fieldOfView = Mathf.Lerp(fpsCam.fieldOfView, originalFov, smooth * Time.deltaTime);
             fpsCam.GetComponentInParent<PlayerMovement>().lookSpeed = originalLookSpeed;
-            //GUIController.instance.crosshair.SetActive(true);
+            GUIController.instance.crosshair.SetActive(true);
         }
         //float mouseX = Input.GetAxisRaw("Mouse X") * multiplier;
         //float mouseY = Input.GetAxisRaw("Mouse Y") * multiplier;
