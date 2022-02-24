@@ -18,6 +18,4 @@ public abstract class BaseState
     public AnimationManager animationManager { get; set; }
 
     public abstract Type Tick();
-
-    
 }

@@ -28,25 +28,31 @@ public class Pipebomb : MonoBehaviour
         {
             Rigidbody rb = near.GetComponent<Rigidbody>();
             IDamageable damageable = near.GetComponent<IDamageable>();
-            if (rb != null)
+            RaycastHit Hit;
+            if(Physics.Raycast(transform.position,near.gameObject.transform.position - transform.position,out Hit,radius))
             {
-                rb.AddExplosionForce(explosionForce, transform.position, radius, 1f, ForceMode.Impulse);
-            }
-            if (damageable != null)
-            {
-
-                distance = (transform.position - rb.transform.position).magnitude;
-                if (distance <= radius)
+                if(Hit.collider == near)
                 {
-                    float damageScale = (1 - (distance / radius)) * damage; // Calculate new grenade damage based on distance from entity to grenade
+                    Debug.Log("Raycast Hit: " + Hit.collider.gameObject.name);
+                    if (rb != null)
+                    {
+                        rb.AddExplosionForce(explosionForce, transform.position, radius, 1f, ForceMode.Impulse);
+                    }
+                    if (damageable != null)
+                    {
 
-                    Debug.Log("Distance :" + distance);
-                    damageable?.TakeDamage(damageScale);
-                    Debug.Log(damageScale);
+                        distance = (transform.position - rb.transform.position).magnitude;
+                        if (distance <= radius)
+                        {
+                            float damageScale = (1 - (distance / radius)) * damage; // Calculate new grenade damage based on distance from entity to grenade
+
+                            Debug.Log("Distance :" + distance);
+                            damageable?.TakeDamage(damageScale);
+                            Debug.Log(damageScale);
+                        }
+                    }
                 }
-
             }
-
         }
 
         //Explosion effect

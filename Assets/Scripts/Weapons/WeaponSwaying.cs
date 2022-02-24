@@ -26,6 +26,7 @@ public class WeaponSwaying : MonoBehaviour
 
     private void Update()
     {
+        if (GameStateManager.Instance.CurrentGameState == GameState.Paused) return;
         if (Input.GetMouseButton(1)) {
             Vector3 scope = GetComponent<Weapon>().scopePoint.transform.localPosition;
             if (Vector3.Dot(scope, transform.localPosition) >= 0.9f) transform.localPosition = scope;

@@ -20,6 +20,7 @@ public class StateMachine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameStateManager.Instance.CurrentGameState == GameState.Paused) return;
         if (_availableStates == null) return;
         //Just to make sure that current state != NULL
         if(currentState == null)

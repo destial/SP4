@@ -28,24 +28,26 @@ public class Grenade : MonoBehaviour
         {
             Rigidbody rb = near.GetComponent<Rigidbody>();
             IDamageable damageable = near.GetComponent<IDamageable>();
-            if (rb != null)
+            if(Physics.Raycast(transform.position,near.transform.position - transform.position,float.PositiveInfinity))
             {
-                rb.AddExplosionForce(explosionForce, transform.position, radius, 1f, ForceMode.Impulse);
-            }
-            if(damageable != null)
-            {
-                
-                distance = (transform.position - rb.transform.position).magnitude;
-                if(distance <= radius)
+                if (rb != null)
                 {
-                    float damageScale = (1 - (distance / radius)) * damage; // Calculate new grenade damage based on distance from entity to grenade
-
-                    Debug.Log("Distance :" + distance);
-                    damageable?.TakeDamage(damageScale);
-                    Debug.Log(damageScale);
+                    rb.AddExplosionForce(explosionForce, transform.position, radius, 1f, ForceMode.Impulse);
                 }
+                if (damageable != null)
+                {
+                    distance = (transform.position - rb.transform.position).magnitude;
+                    if (distance <= radius)
+                    {
+                        float damageScale = (1 - (distance / radius)) * damage; // Calculate new grenade damage based on distance from entity to grenade
+                        Debug.Log("Distance :" + distance);
+                        damageable?.TakeDamage(damageScale);
+                        Debug.Log(damageScale);
+                    }
 
+                }
             }
+            
             
         }
 
