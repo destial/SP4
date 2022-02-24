@@ -23,8 +23,8 @@ public class Zombie : MonoBehaviour
             { typeof(Patrol), new Patrol(this)},
             { typeof(Chase), new Chase(this)},
             {typeof(Seeking), new Seeking(this) },
-            { typeof(Idle), new Idle(this)}
-
+            { typeof(Idle), new Idle(this)},
+            { typeof(Chase), new Chase(this)}
         };
 
         GetComponent<StateMachine>().setState(states);
