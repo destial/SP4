@@ -144,14 +144,15 @@ public class Weapon : MonoBehaviour
             Drop();
             return;
         }
+        
+    }
+
+    private void LateUpdate() {
         LastShotTime += Time.deltaTime;
         if (!lastLineRender && LastShotTime > Time.deltaTime) {
             lineRenderer.enabled = false;
             lastLineRender = true;
         }
-    }
-
-    private void LateUpdate() {
         lineRenderer.SetPosition(0, firingPoint.position);
     }
 }
