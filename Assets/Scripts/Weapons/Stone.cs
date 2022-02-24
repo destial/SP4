@@ -20,16 +20,17 @@ public class Stone : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        //foreach(Zombie zombie in EntityManager.Instance.GetComponentsInChildren<Zombie>())
-        //{
-        //    zombie.gameObject.transform.LookAt(transform.position);
-        //}
-        //lastHitpos = transform.position;
+        lastHitpos = transform.position;
     }
 
     public Vector3 getLastPos()
     {
         return lastHitpos;
+    }
+
+    public bool IsGrounded()
+    {
+        return Physics.Raycast(transform.position, -Vector3.up, 0.1f);
     }
 
 

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3268021399971997222}
   - component: {fileID: 1453135998316023973}
   - component: {fileID: 3607799282263293863}
+  - component: {fileID: 2336656665604215857}
   m_Layer: 6
   m_Name: AK
   m_TagString: Untagged
@@ -46,9 +47,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157b4dae6e369134ba7a6b2fba3a40de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponData: {fileID: 11400000, guid: 44e410df4815129498673340e665df35, type: 2}
   firingPoint: {fileID: 624982334315495402}
   scopePoint: {fileID: 3457963206667581069}
+  muzzleFlash: {fileID: 1000010254994808, guid: 9defeac88977c0d448aa4541073ee9e4, type: 3}
+  impactEffect: {fileID: 1000010355441670, guid: 02a509a7fa70ed740ba4197e20c5d32d, type: 3}
   dropForceForward: 10
   dropForceUp: 2
   dropPrefab: {fileID: 6055571958248153644, guid: 64c4d2ae210ad3b4ca33835089169a0a, type: 3}
@@ -66,6 +68,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   smooth: 8
   multiplier: 6
+  scopeFov: 15
   center: {x: 0, y: 0, z: 0}
 --- !u!82 &3607799282263293863
 AudioSource:
@@ -163,6 +166,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2336656665604215857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570806244546912493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1dc20261e09776458eb24ab9825c26e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  isReloading: 0
+  isScoping: 0
+  ammo: 32
+  magSize: 32
+  reloadTime: 2
+  fireRate: 15
+  maxDistance: 40
+  magAmount: 2
 --- !u!1 &5103580835067074855
 GameObject:
   m_ObjectHideFlags: 0
@@ -187,7 +211,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5103580835067074855}
   m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: 0, y: -0.0804, z: 0.5513}
+  m_LocalPosition: {x: 0, y: -0.07, z: -0.054}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2871285994460348583}

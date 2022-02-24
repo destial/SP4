@@ -5,10 +5,10 @@ using UnityEngine;
 public class Keypad : MonoBehaviour
 {
     public string currentPassword = "12345";
-    public string input;
-    public bool onTrigger;
-    public bool doorOpen;
-    public bool keypadScreen;
+    [HideInInspector] public string input;
+    [HideInInspector] public bool onTrigger;
+    [HideInInspector] public bool doorOpen;
+    [HideInInspector] public bool keypadScreen;
     public Transform doorHinge;
 
     void OnTriggerEnter(Collider other)
@@ -47,6 +47,7 @@ public class Keypad : MonoBehaviour
         {
             if (onTrigger)
             {
+                // Rect rect = PlayerManager.instance.GetComponentInChildren<Camera>().
                 GUI.Box(new Rect(400, 250, 200, 25), "Press 'F' to open keypad");
 
                 if (Input.GetKeyDown(KeyCode.F))
