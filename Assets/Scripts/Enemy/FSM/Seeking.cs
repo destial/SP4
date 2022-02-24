@@ -51,41 +51,35 @@ public class Seeking : BaseState
                 if(distance <= 4f)
                 {
                     Debug.Log("Stopping");
-                    //if (right == null)
-                    //{
-                    //    right = transform.rotation * startingAngle;
-                    //}
-                    //if (left == null)
-                    //{
-                    //    left = transform.rotation * endingAngle;
-                    //}
-                    //Vector3 direction;
-                    //if (lookingLeft)
-                    //{
-                    //    direction = left * Vector3.forward;
-                    //} else
-                    //{
-                    //    Debug.Log("Running here");
-                    //    direction = right * Vector3.forward;
-                    //}
-                    //Quaternion qDirection = Quaternion.LookRotation(direction);
-                    //transform.rotation = Quaternion.Slerp(transform.rotation, qDirection, Time.deltaTime * 2f);
-                    ////if (Equals(qDirection, transform.rotation)) {
-                    //if (Quaternion.Angle(qDirection,transform.rotation) <= 0.01f)
-                    //{ 
-                    //    Debug.Log("Searching! Left Right!");
-                    //    lookingLeft = !lookingLeft;
-
-                    //    if (lookingLeft)
-                    //    {
-                    //        return typeof(Patrol);
-                    //    }
-                    //}
-                    Debug.Log("Reached Left: " + TurnLeft());
-                    Debug.Log("Reached right: " + TurnRight());
-                    if(TurnLeft())
+                    transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);//make variable 
+                    if (right == null)
                     {
-                        if(TurnRight())
+                        right = transform.rotation * startingAngle;
+                    }
+                    if (left == null)
+                    {
+                        left = transform.rotation * endingAngle;
+                    }
+                    Vector3 direction;
+                    if (lookingLeft)
+                    {
+                        direction = left * Vector3.forward;
+                    }
+                    else
+                    {
+                        Debug.Log("Running here");
+                        direction = right * Vector3.forward;
+                    }
+                    Quaternion qDirection = Quaternion.LookRotation(direction);
+                    transform.RotateAround(transform.position, transform.up, Time.deltaTime * 60 * (!lookingLeft ? 1 : -1));
+                    //transform.rotation = Quaternion.Lerp(transform.rotation, qDirection, 0.1f * dir);
+                    //if (Equals(qDirection, transform.rotation)) {
+                    if (Quaternion.Angle(qDirection, transform.rotation) <= 2f)
+                    {
+                        Debug.Log("Searching! Left Right!");
+                        lookingLeft = !lookingLeft;
+
+                        if (lookingLeft)
                         {
                             return typeof(Patrol);
                         }
@@ -113,19 +107,21 @@ public class Seeking : BaseState
 
     private bool TurnLeft()
     {
+        transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
         left = transform.rotation * endingAngle;
         Vector3 direction = left * Vector3.forward;
         Quaternion qDirection = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, qDirection, Time.deltaTime * 2f);
+        transform.rotation = Quaternion.Lerp(transform.rotation, qDirection, Time.deltaTime * 0.5f);
         return Quaternion.Angle(qDirection, transform.rotation) <= 0.01f;
     }
 
     private bool TurnRight()
     {
+        transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
         right = transform.rotation * startingAngle;
         Vector3 direction = right * Vector3.forward;
         Quaternion qDirection = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, qDirection, Time.deltaTime * 2f);
+        transform.rotation = Quaternion.Lerp(transform.rotation, qDirection, Time.deltaTime * 0.5f);
         return Quaternion.Angle(qDirection, transform.rotation) <= 0.01f;
     }
 
