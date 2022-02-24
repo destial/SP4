@@ -30922,7 +30922,6 @@ GameObject:
   - component: {fileID: 1106892733}
   - component: {fileID: 1106892734}
   - component: {fileID: 1106892735}
-  - component: {fileID: 1106892736}
   - component: {fileID: 1106892737}
   m_Layer: 0
   m_Name: Player
@@ -31130,24 +31129,6 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
---- !u!114 &1106892736
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1106892728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 299395e6c8b87f049b076aef0a0b784f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  points: 50
-  timeBetweenPoints: 0.1
-  camera: {fileID: 963194227}
-  CollidableLayers:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!114 &1106892737
 MonoBehaviour:
   m_ObjectHideFlags: 0

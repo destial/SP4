@@ -18,10 +18,12 @@ public class Patrol : BaseState
     private Vector3 noisePos = Vector3.zero;
     private float timer = 5f;
     private Vector3 lastEnemyPos;
+    private float fsmTimer = 0;
     
 
     //Animator Vars
     const string WALK = "Zombie_Walk";
+    const string IDLE = "Zombie_Idle";
 
     public Patrol(Zombie zombie):base(zombie.gameObject)
     {
@@ -33,6 +35,8 @@ public class Patrol : BaseState
     {
         Debug.Log("Patroling!");
         var chaseTarget = checkForAggro();
+        fsmTimer += Time.deltaTime;
+
         if(chaseTarget != null)
         {
             Debug.Log("SWITCH TO CHASE STATE!");
@@ -52,9 +56,27 @@ public class Patrol : BaseState
                 return typeof(Seeking);
             }
         }
-        
 
-        animationManager.ChangeAnimationState(WALK);
+        Debug.Log("FSM TIMER: " + fsmTimer);
+
+        if(fsmTimer >= 3)
+        {
+            Debug.Log("FSM WALK");
+            animationManager.ChangeAnimationState(WALK);
+        }
+        else if(fsmTimer > 3 && fsmTimer <= 6)
+        {
+            Debug.Log("FSM IDLE");
+            _destination = transform.position;
+            animationManager.ChangeAnimationState(IDLE);
+        }
+        else if(fsmTimer > 6)
+        {
+            Debug.Log("FSM RESET");
+            fsmTimer = 0;
+        }
+
+        
 
         if (_destination.HasValue == false || Vector3.Distance(transform.position,_destination.Value) <= stopDistance)
         {
