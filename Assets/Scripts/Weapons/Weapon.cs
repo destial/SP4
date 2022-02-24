@@ -21,6 +21,8 @@ public class Weapon : MonoBehaviour
     public GameObject dropPrefab;
     private LineRenderer lineRenderer;
     private Recoil recoil;
+    private bool lastLineRender;
+    private Vector3 middle = new Vector3(0.5f, 0.5f, 1f);
 
     private void Start()
     {
@@ -28,10 +30,11 @@ public class Weapon : MonoBehaviour
         fpsCam = GetComponentInParent<Camera>();
 
         lineRenderer = GetComponentInParent<LineRenderer>();
-
+        lineRenderer.alignment = LineAlignment.View;
         originalPos = transform.localPosition;
         originalRot = transform.localRotation;
         recoil = GetComponentInParent<Recoil>();
+
     }
 
     private void Drop() {
@@ -40,8 +43,8 @@ public class Weapon : MonoBehaviour
         drop.transform.rotation = transform.rotation;
         Rigidbody rb = drop.GetComponent<Rigidbody>();
         rb.velocity = GetComponentInParent<CharacterController>().velocity;
-        rb.AddForce(GetComponentInParent<Camera>().transform.forward * dropForceForward, ForceMode.Impulse);
-        rb.AddForce(GetComponentInParent<Camera>().transform.up * dropForceUp, ForceMode.Impulse);
+        rb.AddForce(fpsCam.transform.forward * dropForceForward, ForceMode.Impulse);
+        rb.AddForce(fpsCam.transform.up * dropForceUp, ForceMode.Impulse);
         Destroy(gameObject);
     }
 
@@ -79,10 +82,7 @@ public class Weapon : MonoBehaviour
 
     private bool CanShoot()
     {
-        if (LastShotTime > (1f / (weaponData.fireRate / 60f)))
-            return true;
-        else
-            return false;
+        return LastShotTime > (1f / (weaponData.fireRate / 60f));
     }
 
     public void Shoot()
@@ -91,7 +91,7 @@ public class Weapon : MonoBehaviour
         {
             if(CanShoot())
             {
-                Vector3 rayOrigin = fpsCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.0f));
+                Vector3 rayOrigin = fpsCam.ViewportToWorldPoint(middle);
                 RaycastHit hitInfo;
                 Vector3 end;
                 if(Physics.Raycast(rayOrigin, fpsCam.transform.forward, out hitInfo, weaponData.maxDistance))
@@ -106,20 +106,22 @@ public class Weapon : MonoBehaviour
                         hitInfo.transform.GetComponentInParent<IDamageable>();
                     }
                     damageable?.TakeDamage(weaponData.damage);
-                    
+                    Debug.Log("hit target");
+                    Debug.Log(hitInfo.transform.gameObject.name);
                 }
                 else 
                 {
                     end = fpsCam.transform.position + fpsCam.transform.forward * weaponData.maxDistance;
                 }
+                Debug.Log(end);
                 lineRenderer.enabled = true;
-                lineRenderer.positionCount = 2;
                 lineRenderer.SetPosition(0, firingPoint.position);
                 lineRenderer.SetPosition(1, end);
                 shootingFSX.Play();
                 // BulletManager.instance.Shoot(firingPoint.position, end);
                 weaponData.currentAmmo--;
                 LastShotTime = 0f;
+                lastLineRender = false;
                 recoil.RecoilFire();
             }
         }
@@ -140,11 +142,16 @@ public class Weapon : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Q)) {
             Drop();
+            return;
         }
         LastShotTime += Time.deltaTime;
-        if (LastShotTime > Time.deltaTime) {
+        if (!lastLineRender && LastShotTime > Time.deltaTime) {
             lineRenderer.enabled = false;
-            lineRenderer.positionCount = 0;
+            lastLineRender = true;
         }
+    }
+
+    private void LateUpdate() {
+        lineRenderer.SetPosition(0, firingPoint.position);
     }
 }
