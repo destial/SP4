@@ -139,10 +139,15 @@ public class Weapon : MonoBehaviour
                         }
                         if (damageable != null) {
                             damageable?.TakeDamage(weaponData.damage);
+                        } else if (hitInfo.collider.GetComponent<Grenade>() != null) {
+                            Grenade grenade = hitInfo.collider.GetComponent<Grenade>();
+                            grenade.Explode();
+                        } else if (hitInfo.collider.GetComponent<Pipebomb>() != null) {
+                            Pipebomb pipebomb = hitInfo.collider.GetComponent<Pipebomb>();
+                            pipebomb.Explode();
                         } else {
                             StartCoroutine(BulletImpact(hitInfo));
                         }
-                        Debug.Log("Hit target: " + hitInfo.transform.gameObject.name);
                     }
                     else 
                     {
@@ -155,10 +160,9 @@ public class Weapon : MonoBehaviour
                         lineRenderer.SetPosition(1, end);
                     }
                     shootingFSX.Play();
-                    // BulletManager.instance.Shoot(firingPoint.position, end);
                     weaponData.ammo--;
                     lastLineRender = false;
-                    recoil.RecoilFire();
+                    recoil.RecoilFire(weaponData);
                 }
             }
         }
@@ -177,6 +181,7 @@ public class Weapon : MonoBehaviour
                 loadingTime = 0f;
             }
         }
+        if (GameStateManager.Instance.CurrentGameState != GameState.Gameplay) return;
         if (Input.GetKeyDown(KeyCode.Q)) {
             Drop();
             return;

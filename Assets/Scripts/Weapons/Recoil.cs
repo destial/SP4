@@ -30,7 +30,10 @@ public class Recoil : MonoBehaviour
         transform.localRotation = Quaternion.Euler(currentRotation);
     }
 
-    public void RecoilFire() {
-        targetRotation += new Vector3(recoilX, Random.Range(-recoilY, recoilY), Random.Range(-recoilZ, recoilZ));
+    public void RecoilFire(WeaponMeta weapon) {
+        float recX = weapon.isScoping ? -1 : recoilX;
+        float recY = weapon.isScoping ? 0 : recoilY;
+        float recZ = weapon.isScoping ? 1 : recoilZ;
+        targetRotation += new Vector3(recX, Random.Range(-recY, recY), Random.Range(-recZ, recZ));
     }
 }

@@ -13,34 +13,30 @@ public class Melee : MonoBehaviour
     private float m_thickness = 0.025f;
     private AudioSource Sound;
     private Camera playerView;
-    private Vector3 camForward;
     private float damageMultiplier = 1.0f; // For backstabbing
-    private GameObject effect;
+    private Animator anim;
+
     private void Start()
     {
         Sound = melee.GetComponent<AudioSource>();
         meleeCollider = melee.GetComponent<BoxCollider>();
         playerView = melee.GetComponentInParent<Camera>();
+        anim = melee.GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.V))
-        {
-            if(canAttack)
-            {
-                MeleeAttack();
-            }
-        }
+     private void OnEnable() {
+        PlayerShooting.shootInput += MeleeAttack;
     }
 
+    private void OnDisable() {
+        canAttack = true;
+        PlayerShooting.shootInput -= MeleeAttack; 
+    }
 
-    public void MeleeAttack()
+    private void MeleeAttack()
     {
-        
+        if (!canAttack) return;
         canAttack = false;
-        Animator anim = melee.GetComponent<Animator>();
         anim.SetTrigger("Attack");
         Sound.Play();
         
@@ -93,7 +89,7 @@ public class Melee : MonoBehaviour
             if (Vector3.Dot(EnemyView, playerToEnemyView) < -0.65f)// Check if player is behind enemy
                 damageMultiplier = 100.0f;
             
-            effect = Instantiate(HitParticle, hit[i].gameObject.transform.position, hit[i].gameObject.transform.rotation); // instantiates the particle
+            GameObject effect = Instantiate(HitParticle, hit[i].gameObject.transform.position, hit[i].gameObject.transform.rotation); // instantiates the particle
             effect.transform.LookAt(playerView.transform); // Ensures the instantiated particle is always facing the player
             damageable?.TakeDamage(5 * damageMultiplier);
             Debug.Log(damageable?.GetHP());

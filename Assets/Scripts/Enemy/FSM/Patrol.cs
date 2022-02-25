@@ -66,12 +66,12 @@ public class Patrol : BaseState
 
         if(isForwardBlocked())
         {
-            Debug.Log("FORWARD BLOCKED TRUE!");
+            //Debug.Log("FORWARD BLOCKED TRUE!");
             transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRotation, 0.2f);
         }
         else
         {
-            Debug.Log("FORWARD BLOCKED FALSE!");
+            //Debug.Log("FORWARD BLOCKED FALSE!");
             transform.Translate(Vector3.forward * Time.deltaTime * GameSettings.Instance.zombieSpeed);
         }
 
@@ -109,9 +109,9 @@ public class Patrol : BaseState
         _direction = Vector3.Normalize(_destination.Value - transform.position);
         _direction = new Vector3(_direction.x, 0f, _direction.z);
         _desiredRotation = Quaternion.LookRotation(_direction);
-        Debug.Log("Found Random Direction" + _direction);
-        Debug.Log("Test Forward" + transform.forward);
-        Debug.Log("Destination Value: " + _destination.Value + " Transform Position: " + transform.position);
+        //Debug.Log("Found Random Direction" + _direction);
+        //Debug.Log("Test Forward" + transform.forward);
+        //Debug.Log("Destination Value: " + _destination.Value + " Transform Position: " + transform.position);
     }
 
     Quaternion startingAngle = Quaternion.AngleAxis(-40, Vector3.up);
@@ -124,7 +124,7 @@ public class Patrol : BaseState
         
         RaycastHit hit;
         var angle = transform.rotation * startingAngle;
-        var direction = angle * Vector3.forward;
+        var direction = angle * transform.forward;
         var pos = transform.position;
         pos.y += 1;
 
@@ -156,7 +156,7 @@ public class Patrol : BaseState
             {
                 if (hit.collider != null)
                 {
-                    Debug.Log(hit.collider);
+                    //Debug.Log(hit.collider);
                     var drone = hit.collider.GetComponentInParent<PlayerMovement>();
                     if (drone != null)
                     {

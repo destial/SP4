@@ -10,9 +10,12 @@ public class PlayerThrowing : MonoBehaviour
     public Transform throwPoint;
 
     public GameObject throwableObject;
+    
+    public List<GameObject> throwablesPrefabs;
+
+    private Dictionary<GameObject, int> projectiles;
 
     [Header("Settings")]
-    public int totalThrows;
     public float coolDown;
 
     [Header("Throwing")]
@@ -22,25 +25,63 @@ public class PlayerThrowing : MonoBehaviour
 
     private LayerMask collideableLayers;
     private LineRenderer lineRender;
+    private CharacterController cc;
 
     bool canThrow;
     bool released = true;
+
+    int projectileSelection = 0;
+
     private void Start()
     {
+        projectiles = new Dictionary<GameObject, int>();
+        foreach (GameObject throwable in throwablesPrefabs) {
+            projectiles.Add(throwable, 5);
+        }
         canThrow = true;
         lineRender = GetComponent<LineRenderer>();
+        cc = GetComponent<CharacterController>();
+
+        // Switch();
+    }
+
+    private void Switch() {
+        int i = 0;
+        projectileSelection++;
+        if (projectileSelection >= projectiles.Count) projectileSelection = 0;
+        foreach (GameObject throwable in projectiles.Keys) {
+            if (i++ == projectileSelection) throwableObject = throwable;
+        }
+    }
+
+    public void AddProjectile(GameObject prefab) {
+        projectiles[prefab]++;
+    }
+
+    public int GetAmount(GameObject throwable) {
+        projectiles.TryGetValue(throwable, out int amount);
+        return amount;
     }
 
     private void Update()
     {
+        if (Input.GetAxis("Mouse ScrollWheel") != 0) {
+            Switch();
+        }
         if (Input.GetKeyDown(throwKey))
         {
+            projectiles.TryGetValue(throwableObject, out int amount);
+            if (amount <= 0) return;
             lineRender.enabled = true;
         }
-        else if (Input.GetKeyUp(throwKey) && canThrow && totalThrows > 0)
+        else if (Input.GetKeyUp(throwKey) && canThrow)
         {
             lineRender.enabled = false;
+            projectiles.TryGetValue(throwableObject, out int amount);
+            if (amount <= 0) return;
             Throw();
+            
+            projectiles[throwableObject]--;
         }
         else if (!Input.GetKey(throwKey))
         {
@@ -58,7 +99,7 @@ public class PlayerThrowing : MonoBehaviour
 
         // Physics
         Rigidbody projectileRb = projectile.GetComponent<Rigidbody>(); // Gets the throwable object's rigidbody
-
+        projectileRb.velocity = cc.velocity;
 
 
         Vector3 forceDirection = camera.transform.forward;
@@ -73,12 +114,8 @@ public class PlayerThrowing : MonoBehaviour
 
         projectileRb.AddForce(forceToAdd, ForceMode.Impulse); // Impulse so it will only add the force once
 
-        totalThrows--;
-
         //throwCooldown
         Invoke(nameof(ResetThrow), coolDown);
-
-
 
     }
     

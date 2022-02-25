@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if ((GameStateManager.Instance.CurrentGameState == GameState.Paused) || (GameStateManager.Instance.CurrentGameState == GameState.Keypad))
+        if (GameStateManager.Instance.CurrentGameState != GameState.Gameplay)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -71,6 +71,10 @@ public class PlayerMovement : MonoBehaviour
             // We are grounded, so recalculate move direction based on axes
             Vector3 forward = transform.TransformDirection(Vector3.forward);
             Vector3 right = transform.TransformDirection(Vector3.right);
+
+            if (characterController.isGrounded) {
+                velocity.y = 0;
+            }
 
             // Press Left Shift to run
             bool isRunning = Input.GetKey(KeyCode.LeftShift);
@@ -92,16 +96,23 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                velocity.y = movementDirectionY;
+                //Vector3 origin = new Vector3(transform.position.x, transform.position.y + (characterController.height / 2f), transform.position.z);
+                //if (Physics.SphereCast(origin , characterController.radius / 2f, Vector3.up, out RaycastHit hitInfo, 1f)) {
+                //    velocity.y = -movementDirectionY;
+                //} else {
+                    velocity.y = movementDirectionY;
+                //}
             }
+            
+            
 
             // Apply gravity. Gravity is multiplied by deltaTime twice (once here, and once below
             // when the velocity is multiplied by deltaTime). This is because gravity should be applied
             // as an acceleration (ms^-2)
-            //if (!characterController.isGrounded)
-            //{
+            if (!characterController.isGrounded)
+            {
             velocity.y -= gravity * Time.deltaTime;
-            //}
+            }
 
             // Move the controller
             characterController.Move(velocity * Time.deltaTime);
@@ -156,9 +167,5 @@ public class PlayerMovement : MonoBehaviour
 
         isCrouching = !isCrouching;
         During_Player_Crouch_Animation = false;
-    }
-
-    private void OnCollisionEnter(Collision collision) {
-        // collision.rigidbody?.AddForceAtPosition(velocity, collision.GetContacts());
     }
 }
