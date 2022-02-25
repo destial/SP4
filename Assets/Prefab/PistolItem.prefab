@@ -545,6 +545,7 @@ GameObject:
   - component: {fileID: 2645368858183897670}
   - component: {fileID: 2880435900489905825}
   - component: {fileID: 5353255405494876019}
+  - component: {fileID: 6285401289879332982}
   m_Layer: 0
   m_Name: PistolItem
   m_TagString: Untagged
@@ -582,7 +583,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!65 &2880435900489905825
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -610,3 +611,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupRange: 3
   itemPrefab: {fileID: 6924665701642414161, guid: e4b0c0c4e4f3297438fb3bf5ba22a9cd, type: 3}
+  weaponMeta: {fileID: 0}
+--- !u!114 &6285401289879332982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8688864468493214787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1dc20261e09776458eb24ab9825c26e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  isReloading: 0
+  isScoping: 0
+  ammo: 32
+  magSize: 32
+  reloadTime: 2
+  fireRate: 5
+  maxDistance: 50
+  magAmount: 2

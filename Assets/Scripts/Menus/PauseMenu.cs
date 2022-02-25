@@ -15,8 +15,6 @@ public class PauseMenu : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Pause();
-            Cursor.visible = true;
-            PlayerMovement.instance.canMove = false;
         }
     }
 
@@ -34,16 +32,18 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(true);
         GameStateManager.Instance.SetState(GameState.Paused);
         GameIsPaused = true;
+        Cursor.visible = true;
+        PlayerMovement.instance.canMove = false;
     }
 
     public void LoadMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene(0);
     }
 
     public void QuitGame()
     {
-        Debug.Log("Quiting Game");
+        //Debug.Log("Quiting Game");
         Application.Quit();
     }
 }

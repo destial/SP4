@@ -6,6 +6,7 @@ public class PickupItem : MonoBehaviour
 {
     public float pickupRange = 3f;
     public GameObject itemPrefab;
+    public WeaponMeta weaponMeta;
 
     // Start is called before the first frame update
     void Start()

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 318616223127653896}
   - component: {fileID: 6894616794290562297}
   - component: {fileID: 3283014359593895069}
+  - component: {fileID: 7431709461238114921}
   m_Layer: 0
   m_Name: AKItem
   m_TagString: Untagged
@@ -48,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupRange: 3
   itemPrefab: {fileID: 1570806244546912493, guid: d11a3e11c01fbb8448f2c77e428f1e6c, type: 3}
+  weaponMeta: {fileID: 0}
 --- !u!54 &6894616794290562297
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -63,7 +65,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!65 &3283014359593895069
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -77,6 +79,27 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.05, y: 0.2, z: 0.75}
   m_Center: {x: 0, y: -0.07, z: 0.05}
+--- !u!114 &7431709461238114921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6055571958248153644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1dc20261e09776458eb24ab9825c26e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  isReloading: 0
+  isScoping: 0
+  ammo: 32
+  magSize: 32
+  reloadTime: 2
+  fireRate: 16
+  maxDistance: 40
+  magAmount: 2
 --- !u!1001 &6055571957679182652
 PrefabInstance:
   m_ObjectHideFlags: 0

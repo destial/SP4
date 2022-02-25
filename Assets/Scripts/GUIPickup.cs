@@ -22,7 +22,9 @@ public class GUIPickup : MonoBehaviour
             
             GameObject currentWeapon = player.GetComponentInChildren<InventoryController>().GetActiveSlot();
             if (Input.GetKeyDown(KeyCode.E) && currentWeapon.GetComponentInChildren<Weapon>() == null) {
-                Instantiate(item.gameObject.GetComponent<PickupItem>().itemPrefab, currentWeapon.transform);
+                GameObject instWeapon = Instantiate(item.gameObject.GetComponent<PickupItem>().itemPrefab, currentWeapon.transform);
+                WeaponMeta meta = instWeapon.GetComponent<WeaponMeta>();
+                meta.Copy(item.gameObject.GetComponent<WeaponMeta>());
                 Destroy(item.gameObject);
             }
         } else {
