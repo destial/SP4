@@ -30,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     private bool During_Player_Crouch_Animation;
     private KeyCode Crouch_Key = KeyCode.LeftControl;
     private bool isCrouching;
+    private bool jumpPreviousFrame = false;
     private bool canCrouch = true;
 
     [HideInInspector]
@@ -72,8 +73,9 @@ public class PlayerMovement : MonoBehaviour
             Vector3 forward = transform.TransformDirection(Vector3.forward);
             Vector3 right = transform.TransformDirection(Vector3.right);
 
-            if (characterController.isGrounded) {
+            if (characterController.isGrounded && jumpPreviousFrame) {
                 velocity.y = 0;
+                jumpPreviousFrame = false;
             }
 
             // Press Left Shift to run
@@ -93,6 +95,7 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
             {
                 velocity.y = jumpSpeed;
+                jumpPreviousFrame = true;
             }
             else
             {
@@ -111,7 +114,8 @@ public class PlayerMovement : MonoBehaviour
             // as an acceleration (ms^-2)
             if (!characterController.isGrounded)
             {
-            velocity.y -= gravity * Time.deltaTime;
+                velocity.y -= gravity * Time.deltaTime;
+                // jumpPreviousFrame = true;
             }
 
             // Move the controller

@@ -95,7 +95,7 @@ public class PlayerThrowing : MonoBehaviour
         canThrow = false;
 
         //This part instantiates the throwable object
-        GameObject projectile = Instantiate(throwableObject,throwPoint.position,camera.transform.rotation, EntityManager.Instance.gameObject.transform);
+        GameObject projectile = Instantiate(throwableObject, throwPoint.position, camera.transform.rotation, EntityManager.Instance.transform);
 
         // Physics
         Rigidbody projectileRb = projectile.GetComponent<Rigidbody>(); // Gets the throwable object's rigidbody
