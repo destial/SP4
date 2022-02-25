@@ -8,6 +8,9 @@ public class InventoryController : MonoBehaviour
     public GameObject secondaryWeapon;
     public GameObject meleeHolder;
     private LineRenderer lineRenderer;
+    private AudioSource audioSource;
+    public AudioClip pickupItem;
+    public AudioClip outOfAmmo;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +18,7 @@ public class InventoryController : MonoBehaviour
         secondaryWeapon.SetActive(false);
         meleeHolder.SetActive(false);
         lineRenderer = GetComponent<LineRenderer>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -59,5 +63,17 @@ public class InventoryController : MonoBehaviour
 
     public GameObject GetActiveSlot() {
         return primaryWeapon.activeSelf ? primaryWeapon : secondaryWeapon.activeSelf ? secondaryWeapon : null;
+    }
+
+    public void PlayOutOfAmmoAudio() {
+        audioSource.PlayOneShot(outOfAmmo);
+    }
+
+    public void PlayPickUpWeapon() {
+        audioSource.PlayOneShot(pickupItem);
+    }
+
+    public LineRenderer GetLineRenderer() {
+        return lineRenderer;
     }
 }

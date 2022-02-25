@@ -22,6 +22,7 @@ public class GUIPickup : MonoBehaviour
             
             GameObject currentWeapon = player.GetComponentInChildren<InventoryController>().GetActiveSlot();
             if (Input.GetKeyDown(KeyCode.E) && currentWeapon != null && currentWeapon.GetComponentInChildren<Weapon>() == null) {
+                PlayerManager.inventory.PlayPickUpWeapon();
                 GameObject instWeapon = Instantiate(item.gameObject.GetComponent<PickupItem>().itemPrefab, currentWeapon.transform);
                 WeaponMeta meta = instWeapon.GetComponent<WeaponMeta>();
                 meta.Copy(item.gameObject.GetComponent<WeaponMeta>());

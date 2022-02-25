@@ -16,6 +16,7 @@ public class PickupProjectile : MonoBehaviour
         if (Vector3.Distance(pm.transform.position, transform.position) < 1f) {
             pickedUp = true;
             PlayerManager.instance.GetPlayerThrowing().AddProjectile(itemPrefab);
+            PlayerManager.inventory.PlayPickUpWeapon();
             Destroy(gameObject);
         }
     }
