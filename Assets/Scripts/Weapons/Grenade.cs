@@ -8,11 +8,12 @@ public class Grenade : MonoBehaviour
     public float delay = 3f;
 
     public float explosionForce = 10f;
-    public float radius = 10f;
+    public float radius = 5f;
 
     public float damage = 50f;
 
     private GameObject effect;
+    private bool exploded = false;
 
     private float distance;
     private void Start()
@@ -20,8 +21,10 @@ public class Grenade : MonoBehaviour
         Invoke("Explode", delay);
     }
 
-    private void Explode()
+    public void Explode()
     {
+        if (exploded) return;
+        exploded = true;
         Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
 
         foreach(Collider near in colliders)
@@ -36,7 +39,7 @@ public class Grenade : MonoBehaviour
                 }
                 if (damageable != null)
                 {
-                    distance = (transform.position - rb.transform.position).magnitude;
+                    distance = (transform.position - near.transform.position).magnitude;
                     if (distance <= radius)
                     {
                         float damageScale = (1 - (distance / radius)) * damage; // Calculate new grenade damage based on distance from entity to grenade

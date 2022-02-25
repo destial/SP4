@@ -9,13 +9,22 @@ public class PlayerManager : Target
     public static InventoryController inventory { get; private set; }
 
     private float maxHealth;
+    private PlayerThrowing throwing;
+    private PlayerMovement movement;
+    private Camera cam;
+    private CapsuleCollider capsule;
+    private CharacterController cc;
     // Start is called before the first frame update
     void Start()
     {
         instance = this;
         player = gameObject;
         inventory = player.GetComponentInChildren<InventoryController>();
-        // health = 20f;
+        throwing = player.GetComponent<PlayerThrowing>();
+        movement = player.GetComponent<PlayerMovement>();
+        cam = player.GetComponentInChildren<Camera>();
+        capsule = player.GetComponentInChildren<CapsuleCollider>();
+        cc = player.GetComponent<CharacterController>();
         maxHealth = health;
     }
 
@@ -35,7 +44,23 @@ public class PlayerManager : Target
     }
 
     public PlayerThrowing GetPlayerThrowing() {
-        return player.GetComponent<PlayerThrowing>();
+        return throwing;
+    }
+
+    public PlayerMovement GetPlayerMovement() {
+        return movement;
+    }
+
+    public Camera GetCamera() {
+        return cam;
+    }
+
+    public CharacterController GetCharacterController() {
+        return cc;
+    }
+
+    public CapsuleCollider GetCapsuleCollider() {
+        return capsule;
     }
 
     public float GetMaxHealth() {

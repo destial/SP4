@@ -13,7 +13,6 @@ public class Weapon : MonoBehaviour
     public float dropForceUp = 2f;
     float LastShotTime;
     private AudioSource shootingFSX;
-    private Camera fpsCam;
     private bool loading;
     private float loadingTime = 0f;
     public GameObject dropPrefab;
@@ -22,23 +21,18 @@ public class Weapon : MonoBehaviour
     private bool lastLineRender;
     private Vector3 middle = new Vector3(0.5f, 0.5f, 1f);
     private WeaponMeta weaponData;
-    private CharacterController cc;
-    private AudioSource noAmmoFSX;
 
     private void Start()
     {
         shootingFSX = GetComponent<AudioSource>();
-        fpsCam = GetComponentInParent<Camera>();
-        noAmmoFSX = GetComponentInParent<InventoryController>().GetComponent<AudioSource>();
-        cc = GetComponentInParent<CharacterController>();
-        lineRenderer = GetComponentInParent<LineRenderer>();
+        lineRenderer = PlayerManager.inventory.GetLineRenderer();
         lineRenderer.alignment = LineAlignment.View;
         recoil = GetComponentInParent<Recoil>();
         weaponData = GetComponent<WeaponMeta>();
     }
 
     private void Drop() {
-        GameObject drop = Instantiate(dropPrefab);
+        GameObject drop = Instantiate(dropPrefab, EntityManager.Instance.transform);
         drop.transform.position = transform.position;
         drop.transform.rotation = transform.rotation;
         Rigidbody rb = drop.GetComponent<Rigidbody>();
@@ -46,9 +40,9 @@ public class Weapon : MonoBehaviour
         weaponData.isReloading = false;
         weaponData.isScoping = false;
         meta.Copy(weaponData);
-        rb.velocity = cc.velocity;
-        rb.AddForce(fpsCam.transform.forward * dropForceForward, ForceMode.Impulse);
-        rb.AddForce(fpsCam.transform.up * dropForceUp, ForceMode.Impulse);
+        rb.velocity = PlayerManager.instance.GetCharacterController().velocity;
+        rb.AddForce(PlayerManager.instance.GetCamera().transform.forward * dropForceForward, ForceMode.Impulse);
+        rb.AddForce(PlayerManager.instance.GetCamera().transform.up * dropForceUp, ForceMode.Impulse);
         Destroy(gameObject);
     }
 
@@ -118,18 +112,18 @@ public class Weapon : MonoBehaviour
             if (CanShoot()) {
                 LastShotTime = 0f;
                 if (weaponData.ammo <= 0) {
-                    noAmmoFSX.Play();
+                    PlayerManager.inventory.PlayOutOfAmmoAudio();
                 }
                 else
                 {
                     StartCoroutine(MuzzleFlash());
-                    Vector3 rayOrigin = fpsCam.ViewportToWorldPoint(middle);
+                    Vector3 rayOrigin = PlayerManager.instance.GetCamera().ViewportToWorldPoint(middle);
                     RaycastHit hitInfo;
                     Vector3 end;
-                    if(Physics.Raycast(rayOrigin, fpsCam.transform.forward, out hitInfo, weaponData.maxDistance))
+                    if(Physics.Raycast(rayOrigin, PlayerManager.instance.GetCamera().transform.forward, out hitInfo, weaponData.maxDistance))
                     {
                         end = hitInfo.point;
-                        hitInfo.rigidbody?.AddForceAtPosition(fpsCam.transform.forward * weaponData.damage, hitInfo.point);
+                        hitInfo.rigidbody?.AddForceAtPosition(PlayerManager.instance.GetCamera().transform.forward * weaponData.damage, hitInfo.point);
                         IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
                         if (damageable == null) { 
                             hitInfo.transform.GetComponentInChildren<IDamageable>();
@@ -139,14 +133,19 @@ public class Weapon : MonoBehaviour
                         }
                         if (damageable != null) {
                             damageable?.TakeDamage(weaponData.damage);
+                        } else if (hitInfo.collider.GetComponent<Grenade>() != null) {
+                            Grenade grenade = hitInfo.collider.GetComponent<Grenade>();
+                            grenade.Explode();
+                        } else if (hitInfo.collider.GetComponent<Pipebomb>() != null) {
+                            Pipebomb pipebomb = hitInfo.collider.GetComponent<Pipebomb>();
+                            pipebomb.Explode();
                         } else {
                             StartCoroutine(BulletImpact(hitInfo));
                         }
-                        Debug.Log("Hit target: " + hitInfo.transform.gameObject.name);
                     }
                     else 
                     {
-                        end = fpsCam.transform.position + fpsCam.transform.forward * weaponData.maxDistance;
+                        end = PlayerManager.instance.GetCamera().transform.position + PlayerManager.instance.GetCamera().transform.forward * weaponData.maxDistance;
                     }
                     Debug.Log(end);
                     if (!weaponData.isScoping) {
@@ -155,7 +154,6 @@ public class Weapon : MonoBehaviour
                         lineRenderer.SetPosition(1, end);
                     }
                     shootingFSX.Play();
-                    // BulletManager.instance.Shoot(firingPoint.position, end);
                     weaponData.ammo--;
                     lastLineRender = false;
                     recoil.RecoilFire(weaponData);
@@ -185,7 +183,7 @@ public class Weapon : MonoBehaviour
         
     }
 
-    private void LateUpdate() {
+    void LateUpdate() {
         LastShotTime += Time.deltaTime;
         if (!lastLineRender && LastShotTime > Time.deltaTime) {
             lineRenderer.enabled = false;

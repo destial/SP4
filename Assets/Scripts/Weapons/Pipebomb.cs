@@ -12,16 +12,18 @@ public class Pipebomb : MonoBehaviour
 
     public float damage = 100f;
 
-    private GameObject effect;
-
     private float distance;
+
+    private bool exploded = false;
     private void Start()
     {
         Invoke("Explode", delay);
     }
 
-    private void Explode()
+    public void Explode()
     {
+        if (exploded) return;
+        exploded = true;
         Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
 
         foreach (Collider near in colliders)
@@ -56,7 +58,7 @@ public class Pipebomb : MonoBehaviour
         }
 
         //Explosion effect
-        effect = Instantiate(explosionEffect, transform.position, transform.rotation);
+        GameObject effect = Instantiate(explosionEffect, transform.position, transform.rotation);
         Destroy(effect, 1);
         Destroy(gameObject);
     }

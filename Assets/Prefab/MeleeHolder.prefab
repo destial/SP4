@@ -29,7 +29,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6428097560213235823}
   - component: {fileID: 6428097560213235820}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MeleeHolder
   m_TagString: Melee
   m_Icon: {fileID: 0}
@@ -64,7 +64,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   melee: {fileID: 6428097559583956536}
-  HitParticle: {fileID: 0}
+  HitParticle: {fileID: 1000012909287652, guid: abb9f519b142e304d9c45b56afa768bc, type: 3}
   canAttack: 1
   coolDown: 1
 --- !u!1001 &6428097559583829712
@@ -74,9 +74,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6428097560213235823}
     m_Modifications:
+    - target: {fileID: 121106, guid: 50efeb1b8a7aaef408a6e6ea6931fc59, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 143592, guid: 50efeb1b8a7aaef408a6e6ea6931fc59, type: 3}
       propertyPath: m_Name
       value: HisuKnife
+      objectReference: {fileID: 0}
+    - target: {fileID: 143592, guid: 50efeb1b8a7aaef408a6e6ea6931fc59, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 413094, guid: 50efeb1b8a7aaef408a6e6ea6931fc59, type: 3}
       propertyPath: m_RootOrder

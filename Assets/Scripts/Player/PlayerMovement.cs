@@ -30,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     private bool During_Player_Crouch_Animation;
     private KeyCode Crouch_Key = KeyCode.LeftControl;
     private bool isCrouching;
+    private bool jumpPreviousFrame = false;
     private bool canCrouch = true;
 
     [HideInInspector]
@@ -72,6 +73,11 @@ public class PlayerMovement : MonoBehaviour
             Vector3 forward = transform.TransformDirection(Vector3.forward);
             Vector3 right = transform.TransformDirection(Vector3.right);
 
+            if (characterController.isGrounded && jumpPreviousFrame) {
+                velocity.y = 0;
+                jumpPreviousFrame = false;
+            }
+
             // Press Left Shift to run
             bool isRunning = Input.GetKey(KeyCode.LeftShift);
             float curSpeedX = canMove ? (isCrouching ? crouchingSpeed : isRunning ? runningSpeed : walkingSpeed) * Input.GetAxis("Vertical") : 0;
@@ -89,6 +95,7 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
             {
                 velocity.y = jumpSpeed;
+                jumpPreviousFrame = true;
             }
             else
             {
@@ -105,10 +112,11 @@ public class PlayerMovement : MonoBehaviour
             // Apply gravity. Gravity is multiplied by deltaTime twice (once here, and once below
             // when the velocity is multiplied by deltaTime). This is because gravity should be applied
             // as an acceleration (ms^-2)
-            //if (!characterController.isGrounded)
-            //{
-            velocity.y -= gravity * Time.deltaTime;
-            //}
+            if (!characterController.isGrounded)
+            {
+                velocity.y -= gravity * Time.deltaTime;
+                // jumpPreviousFrame = true;
+            }
 
             // Move the controller
             characterController.Move(velocity * Time.deltaTime);

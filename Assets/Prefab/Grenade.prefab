@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 9041552517982975790}
   - component: {fileID: 5150585258257321688}
   - component: {fileID: 6648233226099083291}
+  - component: {fileID: 3679435749755310390}
   m_Layer: 0
   m_Name: Grenade
   m_TagString: Untagged
@@ -113,7 +114,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &6648233226099083291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,8 +130,20 @@ MonoBehaviour:
   explosionEffect: {fileID: 4127360924471736101, guid: cb03e0a012d8b4343b7d2df69f0da1bd, type: 3}
   delay: 3
   explosionForce: 10
-  radius: 20
-  Damage: 50
+  radius: 5
+  damage: 50
+--- !u!114 &3679435749755310390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6645473976911985731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1740afe997f1fa44a0e4fda58dc2a4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8155392668948479767
 PrefabInstance:
   m_ObjectHideFlags: 0
