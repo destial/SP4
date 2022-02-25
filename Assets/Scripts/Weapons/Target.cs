@@ -9,7 +9,11 @@ public class Target : MonoBehaviour, IDamageable
     {
         health -= damage;
         if (health <= 0)
+        {
+            Debug.Log("Dead");
             Destroy(gameObject);
+        }
+            
     }
 
     public float GetHP()

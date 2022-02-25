@@ -9,32 +9,35 @@ public class Seeking : BaseState
     private Vector3 lastEnemyPos;
     private Quaternion right;
     private Quaternion left;
-
+    private float timer = 5f;
     Quaternion startingAngle = Quaternion.AngleAxis(-40, Vector3.up);
     Quaternion endingAngle = Quaternion.AngleAxis(40, Vector3.up);
 
     private bool lookingLeft = true;
+
+    const string IDLE = "Zombie_Idle";
     private void Start()
     {
     }
     public Seeking(Zombie zombie) : base(zombie.gameObject)
     {
         _zombie = zombie;
+        animationManager = _zombie.GetComponent<AnimationManager>();
     }
 
     public override Type Tick()
     {
         Debug.Log("Seeking!!!!");
         if (_zombie.Target == null) return typeof(Patrol);
-        //var target = checkForAggro();
-        //if (target != null)
-        //{
-        //    if (target.transform.GetComponent<PlayerMovement>() != null)
-        //    {
-        //        _zombie.setTarget(target);
-        //        return typeof(Chase);
-        //    }
-        //}
+        var target = checkForAggro();
+        if (target != null)
+        {
+            if (target.transform.GetComponent<PlayerMovement>() != null)
+            {
+                _zombie.setTarget(target);
+                return typeof(Chase);
+            }
+        }
         //Zombie's Target
 
         //transform.LookAt(_zombie.Target);
@@ -51,41 +54,54 @@ public class Seeking : BaseState
             {
                 if(distance <= 4f)
                 {
-                    Debug.Log("Stopping");
-                    transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);//make variable 
-                    if (right == null)
+                    //Debug.Log("Stopping");
+                    //transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);//make variable 
+                    //if (right == null)
+                    //{
+                    //    right = transform.rotation * startingAngle;
+                    //}
+                    //if (left == null)
+                    //{
+                    //    left = transform.rotation * endingAngle;
+                    //}
+                    //Vector3 direction;
+                    //if (lookingLeft)
+                    //{
+                    //    direction = left * Vector3.forward;
+                    //}
+                    //else
+                    //{
+                    //    Debug.Log("Running here");
+                    //    direction = right * Vector3.forward;
+                    //}
+                    //Quaternion qDirection = Quaternion.LookRotation(direction);
+                    //transform.RotateAround(transform.position, transform.up, Time.deltaTime * 60 * (!lookingLeft ? 1 : -1));
+                    ////transform.rotation = Quaternion.Lerp(transform.rotation, qDirection, 0.1f * dir);
+                    ////if (Equals(qDirection, transform.rotation)) {
+                    //if (Quaternion.Angle(qDirection, transform.rotation) <= 2f)
+                    //{
+                    //    Debug.Log("Searching! Left Right!");
+                    //    lookingLeft = !lookingLeft;
+
+                    //    if (lookingLeft)
+                    //    {
+                    //        return typeof(Patrol);
+                    //    }
+                    //}
+                    
+                    if(timer <= 0f)
                     {
-                        right = transform.rotation * startingAngle;
-                    }
-                    if (left == null)
-                    {
-                        left = transform.rotation * endingAngle;
-                    }
-                    Vector3 direction;
-                    if (lookingLeft)
-                    {
-                        direction = left * Vector3.forward;
+                        Debug.Log("Returning to patrol state");
+                        timer = 5f;
+                        _zombie.Target.gameObject.SetActive(false);
+                        return typeof(Patrol);
                     }
                     else
                     {
-                        Debug.Log("Running here");
-                        direction = right * Vector3.forward;
+                        timer -= Time.deltaTime;
                     }
-                    Quaternion qDirection = Quaternion.LookRotation(direction);
-                    transform.RotateAround(transform.position, transform.up, Time.deltaTime * 60 * (!lookingLeft ? 1 : -1));
-                    //transform.rotation = Quaternion.Lerp(transform.rotation, qDirection, 0.1f * dir);
-                    //if (Equals(qDirection, transform.rotation)) {
-                    if (Quaternion.Angle(qDirection, transform.rotation) <= 2f)
-                    {
-                        Debug.Log("Searching! Left Right!");
-                        lookingLeft = !lookingLeft;
-
-                        if (lookingLeft)
-                        {
-                            return typeof(Patrol);
-                        }
-                    }
-                    
+                    checkForAggro();
+                    animationManager.ChangeAnimationState(IDLE);
                 }
                 else
                 {
@@ -170,12 +186,12 @@ public class Seeking : BaseState
             {
                 if (hit.collider != null)
                 {
-                    Debug.Log(hit.collider);
+                    //Debug.Log(hit.collider);
                     var drone = hit.collider.GetComponentInParent<PlayerMovement>();
                     if (drone != null)
                     {
                         //When zombie hit player
-                        Debug.Log("Player Found");
+                        //Debug.Log("Player Found");
                         Debug.DrawLine(pos, direction * hit.distance, Color.red);
                         return drone.transform;
                     }
