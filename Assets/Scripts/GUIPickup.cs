@@ -21,7 +21,7 @@ public class GUIPickup : MonoBehaviour
         if (item != null && Vector3.Distance(item.position, player.transform.position) <= item.GetComponent<PickupItem>().pickupRange) {
             
             GameObject currentWeapon = player.GetComponentInChildren<InventoryController>().GetActiveSlot();
-            if (Input.GetKeyDown(KeyCode.E) && currentWeapon.GetComponentInChildren<Weapon>() == null) {
+            if (Input.GetKeyDown(KeyCode.E) && currentWeapon != null && currentWeapon.GetComponentInChildren<Weapon>() == null) {
                 GameObject instWeapon = Instantiate(item.gameObject.GetComponent<PickupItem>().itemPrefab, currentWeapon.transform);
                 WeaponMeta meta = instWeapon.GetComponent<WeaponMeta>();
                 meta.Copy(item.gameObject.GetComponent<WeaponMeta>());
