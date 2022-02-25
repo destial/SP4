@@ -5,16 +5,6 @@ using UnityEngine;
 public class Teleporter : MonoBehaviour
 {
     public Vector3 destination;
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void OnTriggerEnter(Collider other) {
         PlayerMovement player = other.gameObject.GetComponent<PlayerMovement>();

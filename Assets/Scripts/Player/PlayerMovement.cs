@@ -72,6 +72,10 @@ public class PlayerMovement : MonoBehaviour
             Vector3 forward = transform.TransformDirection(Vector3.forward);
             Vector3 right = transform.TransformDirection(Vector3.right);
 
+            if (characterController.isGrounded) {
+                velocity.y = 0;
+            }
+
             // Press Left Shift to run
             bool isRunning = Input.GetKey(KeyCode.LeftShift);
             float curSpeedX = canMove ? (isCrouching ? crouchingSpeed : isRunning ? runningSpeed : walkingSpeed) * Input.GetAxis("Vertical") : 0;
@@ -105,10 +109,10 @@ public class PlayerMovement : MonoBehaviour
             // Apply gravity. Gravity is multiplied by deltaTime twice (once here, and once below
             // when the velocity is multiplied by deltaTime). This is because gravity should be applied
             // as an acceleration (ms^-2)
-            //if (!characterController.isGrounded)
-            //{
+            if (!characterController.isGrounded)
+            {
             velocity.y -= gravity * Time.deltaTime;
-            //}
+            }
 
             // Move the controller
             characterController.Move(velocity * Time.deltaTime);
