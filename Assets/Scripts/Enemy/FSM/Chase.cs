@@ -27,7 +27,7 @@ public class Chase : BaseState
                                         _zombie.Target.position.z);
         //transform.LookAt(_zombie.Target);
         transform.LookAt(targetPos);
-        transform.Translate(Vector3.forward * Time.deltaTime * GameSettings.Instance.zombieSpeed * 5);
+        //transform.Translate(Vector3.forward * Time.deltaTime * GameSettings.Instance.zombieSpeed * 5);
 
         //Distance between ENEMY & PLAYER
         var distance = Vector3.Distance(transform.position, targetPos);
