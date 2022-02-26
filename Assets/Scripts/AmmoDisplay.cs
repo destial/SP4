@@ -17,10 +17,11 @@ public class AmmoDisplay : MonoBehaviour
     {
         if (PlayerManager.instance.GetCurrentWeapon() != null) {
             WeaponMeta current = PlayerManager.instance.GetCurrentWeapon();
+            string weaponName = current.gameObject.name.Replace("(Clone)", "");
             if (current.isReloading) {
                 ammoText.text = "Reloading...";
             } else {
-                ammoText.text = "Ammo: " + current.ammo + " / " + current.magSize + "\nMags Left: " + current.magAmount;
+                ammoText.text = "Weapon: " + weaponName + "\nAmmo: " + current.ammo + " / " + current.magSize + "\nMags Left: " + current.magAmount;
             }
         } else {
             ammoText.text = "";

@@ -31,7 +31,6 @@ public class Chase : BaseState
     {
         if (_zombie.Target == null) return typeof(Patrol);
 
-
         //Zombie's Target
         Vector3 targetPos = new Vector3(_zombie.Target.position.x,
                                         transform.position.y,
@@ -42,12 +41,8 @@ public class Chase : BaseState
         Vector3 velocity = direction * GameSettings.Instance.zombieSpeed * 3;
         _zombie.GetComponent<Rigidbody>().velocity = velocity;
 
-        Debug.DrawLine(transform.position, targetPos);
-
         //Distance between ENEMY & PLAYER
         var distance = Vector3.Distance(transform.position, targetPos);
-
-
 
         if(distance <= GameSettings.Instance.aggroRadius)
         {
@@ -63,23 +58,12 @@ public class Chase : BaseState
                 {
                     damageCooldown -= Time.deltaTime;
                 }
-                Debug.Log("ATTACKED PLAYER");
             }
         }
         else if(distance <= 20f)
         {
-            if (isForwardBlocked())
+            if (!isForwardBlocked())
             {
-                Debug.Log("FORWARD BLOCKED TRUE! CHASE");
-                // transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRotation, 0.8f);
-            }
-            else
-            {
-                Debug.Log("FORWARD BLOCKED FALSE! CHASE");
-                //transform.Translate(Vector3.forward * Time.deltaTime * GameSettings.Instance.zombieSpeed * 5);
-
-                Debug.Log("CHASING TARGET");
-                // transform.Translate(transform.forward * Time.deltaTime * GameSettings.Instance.zombieSpeed * 5);
                 animationManager.ChangeAnimationState(RUN);
             }
         }

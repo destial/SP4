@@ -94,12 +94,12 @@ MonoBehaviour:
   damage: 10
   isReloading: 0
   isScoping: 0
-  ammo: 32
-  magSize: 32
-  reloadTime: 2
-  fireRate: 16
+  ammo: 64
+  magSize: 64
+  reloadTime: 3
+  fireRate: 10
   maxDistance: 40
-  magAmount: 2
+  magAmount: 10
 --- !u!1001 &6055571957679182652
 PrefabInstance:
   m_ObjectHideFlags: 0

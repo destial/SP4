@@ -28,7 +28,6 @@ public class Seeking : BaseState
 
     public override Type Tick()
     {
-        Debug.Log("Seeking!!!!");
         if (_zombie.Target == null) return typeof(Patrol);
         var target = checkForAggro();
         if (target != null)
@@ -56,44 +55,9 @@ public class Seeking : BaseState
             {
                 if(distance <= 4f)
                 {
-                    //Debug.Log("Stopping");
-                    //transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);//make variable 
-                    //if (right == null)
-                    //{
-                    //    right = transform.rotation * startingAngle;
-                    //}
-                    //if (left == null)
-                    //{
-                    //    left = transform.rotation * endingAngle;
-                    //}
-                    //Vector3 direction;
-                    //if (lookingLeft)
-                    //{
-                    //    direction = left * Vector3.forward;
-                    //}
-                    //else
-                    //{
-                    //    Debug.Log("Running here");
-                    //    direction = right * Vector3.forward;
-                    //}
-                    //Quaternion qDirection = Quaternion.LookRotation(direction);
-                    //transform.RotateAround(transform.position, transform.up, Time.deltaTime * 60 * (!lookingLeft ? 1 : -1));
-                    ////transform.rotation = Quaternion.Lerp(transform.rotation, qDirection, 0.1f * dir);
-                    ////if (Equals(qDirection, transform.rotation)) {
-                    //if (Quaternion.Angle(qDirection, transform.rotation) <= 2f)
-                    //{
-                    //    Debug.Log("Searching! Left Right!");
-                    //    lookingLeft = !lookingLeft;
-
-                    //    if (lookingLeft)
-                    //    {
-                    //        return typeof(Patrol);
-                    //    }
-                    //}
-                    
                     if(timer <= 0f)
                     {
-                        Debug.Log("Returning to patrol state");
+
                         timer = 5f;
                         _zombie.Target.gameObject.SetActive(false);
                         return typeof(Patrol);
@@ -107,55 +71,19 @@ public class Seeking : BaseState
                 }
                 else
                 {
-                    Debug.Log("Running (Curious)");
                     transform.LookAt(targetPos);
                     Vector3 velocity = (targetPos - transform.position).normalized * GameSettings.Instance.zombieSpeed * 2;
                     _zombie.GetComponent<Rigidbody>().velocity = velocity;
                 }
             }
         }
-        //Player is out of range in enemy vision
-        //else
-        //{
-        //    //transform.LookAt(targetPos);
-
-        //    return typeof(Patrol);
-        //}
         return null;
-    }
-
-
-    private bool TurnLeft()
-    {
-        transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
-        left = transform.rotation * endingAngle;
-        Vector3 direction = left * Vector3.forward;
-        Quaternion qDirection = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Lerp(transform.rotation, qDirection, Time.deltaTime * 0.5f);
-        return Quaternion.Angle(qDirection, transform.rotation) <= 0.01f;
-    }
-
-    private bool TurnRight()
-    {
-        transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
-        right = transform.rotation * startingAngle;
-        Vector3 direction = right * Vector3.forward;
-        Quaternion qDirection = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Lerp(transform.rotation, qDirection, Time.deltaTime * 0.5f);
-        return Quaternion.Angle(qDirection, transform.rotation) <= 0.01f;
-    }
-
-    private void CheckNoise(Vector3 target)
-    {
-        lastEnemyPos = transform.position;
-
-        Debug.Log("checking noise");
     }
 
     private Transform checkForAggro()
     {
         Quaternion startingAngle = Quaternion.AngleAxis(-40, Vector3.up);
-        Quaternion stepAngle = Quaternion.AngleAxis(5, Vector3.up);
+        Quaternion stepAngle = Quaternion.AngleAxis(80 / 5, Vector3.up);
 
         float aggroRadius = 40f;
 
@@ -183,7 +111,7 @@ public class Seeking : BaseState
         }
 
         // Field of view
-        for (var i = 0; i < 24; i++)
+        for (var i = 0; i < 5; i++)
         {
             if (Physics.Raycast(pos, direction, out hit, aggroRadius))
             {
@@ -193,21 +121,11 @@ public class Seeking : BaseState
                     var drone = hit.collider.GetComponentInParent<PlayerMovement>();
                     if (drone != null)
                     {
-                        //When zombie hit player
-                        //Debug.Log("Player Found");
-                        Debug.DrawLine(pos, direction * hit.distance, Color.red);
+
                         return drone.transform;
                     }
                 }
-                else
-                {
-                    Debug.DrawLine(pos, direction * hit.distance, Color.yellow);
-                }
-            }
-            else
-            {
-                //Debug.Log("Player Not Found");
-                Debug.DrawLine(pos, direction * aggroRadius, Color.white);
+
             }
             direction = stepAngle * direction;
         }

@@ -14,8 +14,6 @@ public class StateMachine : MonoBehaviour
 
     const string DEATH = "Zombie_Death";
 
-
-
     //Dictionary States  
     public void setState(Dictionary<Type, BaseState> states)
     {
@@ -37,7 +35,6 @@ public class StateMachine : MonoBehaviour
             GetComponent<AnimationManager>().ChangeAnimationState(DEATH);
             //transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
             Destroy(gameObject, 2);
-            Debug.Log("ZOMBIE DIED");
             return;
         }
         if (isDead) return;
