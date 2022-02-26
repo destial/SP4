@@ -11,6 +11,8 @@ public class Zombie : MonoBehaviour
 
     public StateMachine StateMachine => GetComponent<StateMachine>();
 
+
+
     private void Start()
     {
         InitializeStateMachine();
@@ -22,7 +24,8 @@ public class Zombie : MonoBehaviour
         {
             { typeof(Patrol), new Patrol(this)},
             { typeof(Chase), new Chase(this)},
-            {typeof(Seeking), new Seeking(this) }
+            { typeof(Seeking), new Seeking(this)},
+            { typeof(Death), new Death(this)}
         };
 
         GetComponent<StateMachine>().setState(states);
@@ -30,8 +33,9 @@ public class Zombie : MonoBehaviour
 
     private void Update()
     {
-        GetComponent<Animator>().enabled = GameStateManager.Instance.CurrentGameState != GameState.Paused;
+        
     }
+
 
 
     public void setTarget(Transform target)
