@@ -4,15 +4,29 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+    private float nextSpawnTime;
+
+    [SerializeField] private GameObject zombiePrefab;
+    [SerializeField] private float spawnDelay = 10;
+
+   private void Update()
     {
-        
+        if(ShouldSpawn())
+        {
+            Spawn();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Spawn()
     {
-        
+        nextSpawnTime = Time.time + spawnDelay;
+        Instantiate(zombiePrefab, transform.position, transform.rotation);
     }
+
+    private bool ShouldSpawn()
+    {
+        return Time.time > nextSpawnTime;
+    }    
+
 }
