@@ -91,7 +91,7 @@ public class Melee : MonoBehaviour
             
             GameObject effect = Instantiate(HitParticle, hit[i].gameObject.transform.position, hit[i].gameObject.transform.rotation); // instantiates the particle
             effect.transform.LookAt(playerView.transform); // Ensures the instantiated particle is always facing the player
-            damageable?.TakeDamage(5 * damageMultiplier);
+            damageable?.TakeDamage(20 * damageMultiplier);
             Debug.Log(damageable?.GetHP());
             Debug.Log("Hit: " + hit[i].gameObject.name);
             Destroy(effect, 1f); // Destroys particle after it is done

@@ -6,7 +6,6 @@ using UnityEngine.AI;
 
 public class Patrol : BaseState
 {
-
     private Vector3? _destination;
     private float stopDistance = 1.5f;
     private float turnSpeed = 1f;
@@ -18,10 +17,11 @@ public class Patrol : BaseState
     private Vector3 noisePos = Vector3.zero;
     private float timer = 5f;
     private Vector3 lastEnemyPos;
-    
+    private float fsmTimer = 0;
 
     //Animator Vars
     const string WALK = "Zombie_Walk";
+    const string IDLE = "Zombie_Idle";
 
     public Patrol(Zombie zombie):base(zombie.gameObject)
     {
@@ -31,16 +31,14 @@ public class Patrol : BaseState
 
     public override Type Tick() // Update
     {
-        Debug.Log("Patroling!");
         var chaseTarget = checkForAggro();
+        fsmTimer += Time.deltaTime;
+
         if(chaseTarget != null)
         {
-            Debug.Log("SWITCH TO CHASE STATE!");
             _zombie.setTarget(chaseTarget);
             if (chaseTarget.GetComponentInParent<PlayerMovement>() != null)
             {
-                Debug.Log("Chasing!");
-                
                 return typeof(Chase);
             }
             else if(chaseTarget.GetComponentInParent<Pipebomb>() != null)
@@ -52,39 +50,49 @@ public class Patrol : BaseState
                 return typeof(Seeking);
             }
         }
-        
 
-        animationManager.ChangeAnimationState(WALK);
-
-        if (_destination.HasValue == false || Vector3.Distance(transform.position,_destination.Value) <= stopDistance)
-        {
-            Debug.Log("WALL COLLIDED");
-            findRandomDestination();
-        }
-
-        transform.rotation = Quaternion.Slerp(transform.rotation, _desiredRotation, Time.deltaTime * turnSpeed);
-
-        if(isForwardBlocked())
-        {
-            //Debug.Log("FORWARD BLOCKED TRUE!");
-            transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRotation, 0.2f);
-        }
+        //IDLING AND PATROL MOVEMENT; WHEN ENEMY HAS NO TARGET
         else
         {
-            //Debug.Log("FORWARD BLOCKED FALSE!");
-            transform.Translate(Vector3.forward * Time.deltaTime * GameSettings.Instance.zombieSpeed);
+            if (fsmTimer <= 10)
+            {
+                animationManager.ChangeAnimationState(WALK);
+
+                if (!_destination.HasValue || Vector3.Distance(transform.position, _destination.Value) <= stopDistance)
+                {
+                    findRandomDestination();
+                }
+
+
+                transform.rotation = Quaternion.Slerp(transform.rotation, _desiredRotation, Time.deltaTime * turnSpeed);
+
+                if (isForwardBlocked())
+                {
+                    transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRotation, 0.2f);
+                }
+                else
+                {
+                    transform.Translate(Vector3.forward * Time.deltaTime * GameSettings.Instance.zombieSpeed);
+                }
+
+                while (isPathBlocked())
+                {
+                    findRandomDestination();
+                }
+            }
+            else if (fsmTimer > 10 && fsmTimer <= 15)
+            {
+                _destination = Vector3.zero;
+                animationManager.ChangeAnimationState(IDLE);
+            }
+            else if (fsmTimer > 15)
+            {
+                fsmTimer = 0;
+            }
+
+
+            return null;
         }
-
-        Debug.DrawRay(transform.position, _direction * _rayDistance, Color.red);
-
-        while(isPathBlocked())
-        {
-            findRandomDestination();
-            Debug.Log("PATH BLOCKED");
-        }
-
-        return null;
-
     }
 
     private bool isForwardBlocked()
@@ -109,13 +117,10 @@ public class Patrol : BaseState
         _direction = Vector3.Normalize(_destination.Value - transform.position);
         _direction = new Vector3(_direction.x, 0f, _direction.z);
         _desiredRotation = Quaternion.LookRotation(_direction);
-        //Debug.Log("Found Random Direction" + _direction);
-        //Debug.Log("Test Forward" + transform.forward);
-        //Debug.Log("Destination Value: " + _destination.Value + " Transform Position: " + transform.position);
     }
 
     Quaternion startingAngle = Quaternion.AngleAxis(-40, Vector3.up);
-    Quaternion stepAngle = Quaternion.AngleAxis(5, Vector3.up);
+    Quaternion stepAngle = Quaternion.AngleAxis(80 / 5, Vector3.up);
 
     private Transform checkForAggro()
     {
@@ -150,30 +155,18 @@ public class Patrol : BaseState
         }
 
         // Field of view
-        for (var i = 0; i < 24; i++)
+        for (var i = 0; i < 5; i++)
         {
             if (Physics.Raycast(pos, direction, out hit, aggroRadius))
             {
                 if (hit.collider != null)
                 {
-                    //Debug.Log(hit.collider);
                     var drone = hit.collider.GetComponentInParent<PlayerMovement>();
                     if (drone != null)
                     {
-                        //When zombie hit p4eund");
-                        Debug.DrawLine(pos, direction * hit.distance, Color.red);
                         return drone.transform;
                     }
                 }
-                else
-                {
-                    Debug.DrawLine(pos, direction * hit.distance, Color.yellow);
-                }
-            }
-            else
-            {
-                //Debug.Log("Player Not Found");
-                Debug.DrawLine(pos, direction * aggroRadius, Color.blue);
             }
             direction = stepAngle * direction;
         }

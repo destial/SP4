@@ -627,9 +627,9 @@ MonoBehaviour:
   damage: 10
   isReloading: 0
   isScoping: 0
-  ammo: 32
-  magSize: 32
+  ammo: 16
+  magSize: 16
   reloadTime: 2
   fireRate: 5
   maxDistance: 50
-  magAmount: 2
+  magAmount: 16

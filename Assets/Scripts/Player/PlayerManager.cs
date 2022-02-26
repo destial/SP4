@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class PlayerManager : Target
 {
     public static PlayerManager instance { get; private set; }
@@ -26,6 +26,14 @@ public class PlayerManager : Target
         capsule = player.GetComponentInChildren<CapsuleCollider>();
         cc = player.GetComponent<CharacterController>();
         maxHealth = health;
+    }
+
+    private void Update()
+    {
+        if(health <= 0f)
+        {
+            SceneManager.LoadScene(2);
+        }
     }
 
     public WeaponMeta GetPrimaryWeapon() {

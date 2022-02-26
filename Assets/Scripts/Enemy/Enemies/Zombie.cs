@@ -6,7 +6,6 @@ using System;
 
 public class Zombie : MonoBehaviour
 {
-
     public Transform Target { get; private set; }
 
     public StateMachine StateMachine => GetComponent<StateMachine>();
@@ -22,17 +21,15 @@ public class Zombie : MonoBehaviour
         {
             { typeof(Patrol), new Patrol(this)},
             { typeof(Chase), new Chase(this)},
-            {typeof(Seeking), new Seeking(this) }
+            { typeof(Seeking), new Seeking(this)}
         };
 
         GetComponent<StateMachine>().setState(states);
     }
-
-    private void Update()
+    public void StartTask(IEnumerator func)
     {
-        GetComponent<Animator>().enabled = GameStateManager.Instance.CurrentGameState != GameState.Paused;
+        StartCoroutine(func);
     }
-
 
     public void setTarget(Transform target)
     {

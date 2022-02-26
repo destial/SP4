@@ -10,6 +10,10 @@ public class StateMachine : MonoBehaviour
     public BaseState currentState { get; private set; }
     public event Action<BaseState> OnStateChanged;
 
+    private bool isDead = false;
+
+    const string DEATH = "Zombie_Death";
+
     //Dictionary States  
     public void setState(Dictionary<Type, BaseState> states)
     {
@@ -22,8 +26,22 @@ public class StateMachine : MonoBehaviour
     {
         if (GameStateManager.Instance.CurrentGameState == GameState.Paused) return;
         if (_availableStates == null) return;
+
+        GetComponent<Animator>().enabled = GameStateManager.Instance.CurrentGameState != GameState.Paused;
+
+        if (GetComponent<IDamageable>().GetHP() <= 0 && isDead == false)
+        {
+            isDead = true;
+            GetComponent<AnimationManager>().ChangeAnimationState(DEATH);
+            //transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            Destroy(gameObject, 2);
+            return;
+        }
+        if (isDead) return;
+
+
         //Just to make sure that current state != NULL
-        if(currentState == null)
+        if (currentState == null)
         {
             var iterator = _availableStates.Values.GetEnumerator();
             while (currentState == null)
