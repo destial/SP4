@@ -16,6 +16,7 @@ public class Seeking : BaseState
     private bool lookingLeft = true;
 
     const string IDLE = "Zombie_Idle";
+    const string RUN = "Zombie_Run";
     private void Start()
     {
     }
@@ -35,6 +36,7 @@ public class Seeking : BaseState
             if (target.transform.GetComponent<PlayerMovement>() != null)
             {
                 _zombie.setTarget(target);
+                animationManager.ChangeAnimationState(RUN);
                 return typeof(Chase);
             }
         }
@@ -107,7 +109,8 @@ public class Seeking : BaseState
                 {
                     Debug.Log("Running (Curious)");
                     transform.LookAt(targetPos);
-                    transform.Translate(Vector3.forward * Time.deltaTime * GameSettings.Instance.zombieSpeed * 5);
+                    Vector3 velocity = (targetPos - transform.position).normalized * GameSettings.Instance.zombieSpeed * 2;
+                    _zombie.GetComponent<Rigidbody>().velocity = velocity;
                 }
             }
         }

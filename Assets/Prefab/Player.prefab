@@ -329,6 +329,8 @@ MonoBehaviour:
   primaryWeapon: {fileID: 6372602137655877135}
   secondaryWeapon: {fileID: 6372602137292750552}
   meleeHolder: {fileID: 7783752502242255053}
+  pickupItem: {fileID: 0}
+  outOfAmmo: {fileID: 0}
 --- !u!114 &6372602136907111185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -596,6 +598,8 @@ GameObject:
   - component: {fileID: 6372602137718409431}
   - component: {fileID: 6372602137718409428}
   - component: {fileID: 6372602137718409429}
+  - component: {fileID: 6479987010828211687}
+  - component: {fileID: 6111981082326346203}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -807,6 +811,34 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &6479987010828211687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6372602137718409426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 185174e39461ecc4390adcfddf979cf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zombieSpeed: 2
+  aggroRadius: 1.5
+  attackRange: 1
+  zombieProjectilePrefab: {fileID: 0}
+--- !u!114 &6111981082326346203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6372602137718409426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d106fb3486541c4291ef6bdbac0046f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3832634773858519203
 PrefabInstance:
   m_ObjectHideFlags: 0

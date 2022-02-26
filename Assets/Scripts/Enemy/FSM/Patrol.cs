@@ -18,10 +18,12 @@ public class Patrol : BaseState
     private Vector3 noisePos = Vector3.zero;
     private float timer = 5f;
     private Vector3 lastEnemyPos;
+    private float fsmTimer = 0;
     
 
     //Animator Vars
     const string WALK = "Zombie_Walk";
+    const string IDLE = "Zombie_Idle";
 
     public Patrol(Zombie zombie):base(zombie.gameObject)
     {
@@ -33,6 +35,8 @@ public class Patrol : BaseState
     {
         Debug.Log("Patroling!");
         var chaseTarget = checkForAggro();
+        fsmTimer += Time.deltaTime;
+
         if(chaseTarget != null)
         {
             Debug.Log("SWITCH TO CHASE STATE!");
@@ -52,39 +56,60 @@ public class Patrol : BaseState
                 return typeof(Seeking);
             }
         }
-        
 
-        animationManager.ChangeAnimationState(WALK);
-
-        if (_destination.HasValue == false || Vector3.Distance(transform.position,_destination.Value) <= stopDistance)
-        {
-            Debug.Log("WALL COLLIDED");
-            findRandomDestination();
-        }
-
-        transform.rotation = Quaternion.Slerp(transform.rotation, _desiredRotation, Time.deltaTime * turnSpeed);
-
-        if(isForwardBlocked())
-        {
-            //Debug.Log("FORWARD BLOCKED TRUE!");
-            transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRotation, 0.2f);
-        }
+        //IDLING AND PATROL MOVEMENT; WHEN ENEMY HAS NO TARGET
         else
         {
-            //Debug.Log("FORWARD BLOCKED FALSE!");
-            transform.Translate(Vector3.forward * Time.deltaTime * GameSettings.Instance.zombieSpeed);
+            Debug.Log("FSM TIMER: " + fsmTimer);
+
+            if (fsmTimer <= 10)
+            {
+                Debug.Log("FSM WALK");
+                animationManager.ChangeAnimationState(WALK);
+
+                if (_destination.HasValue == false || Vector3.Distance(transform.position, _destination.Value) <= stopDistance)
+                {
+                    Debug.Log("WALL COLLIDED");
+                    findRandomDestination();
+                }
+
+
+                transform.rotation = Quaternion.Slerp(transform.rotation, _desiredRotation, Time.deltaTime * turnSpeed);
+
+                if (isForwardBlocked())
+                {
+                    Debug.Log("FORWARD BLOCKED TRUE!");
+                    transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRotation, 0.2f);
+                }
+                else
+                {
+                    Debug.Log("FORWARD BLOCKED FALSE!");
+                    transform.Translate(Vector3.forward * Time.deltaTime * GameSettings.Instance.zombieSpeed);
+                }
+
+                Debug.DrawRay(transform.position, _direction * _rayDistance, Color.red);
+
+                while (isPathBlocked())
+                {
+                    findRandomDestination();
+                    Debug.Log("PATH BLOCKED");
+                }
+            }
+            else if (fsmTimer > 10 && fsmTimer <= 15)
+            {
+                Debug.Log("FSM IDLE");
+                _destination = Vector3.zero;
+                animationManager.ChangeAnimationState(IDLE);
+            }
+            else if (fsmTimer > 15)
+            {
+                Debug.Log("FSM RESET");
+                fsmTimer = 0;
+            }
+
+
+            return null;
         }
-
-        Debug.DrawRay(transform.position, _direction * _rayDistance, Color.red);
-
-        while(isPathBlocked())
-        {
-            findRandomDestination();
-            Debug.Log("PATH BLOCKED");
-        }
-
-        return null;
-
     }
 
     private bool isForwardBlocked()
