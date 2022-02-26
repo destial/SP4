@@ -26,7 +26,7 @@ public class Chase : BaseState
 
     private bool isForwardBlocked()
     {
-        Ray ray = new Ray(transform.position, transform.forward);
+        Ray ray = new Ray(transform.position, _zombie.Target.position - transform.position);
         return Physics.SphereCast(ray, 0.5f, _rayDistance, _layerMask);
     }
 
@@ -39,12 +39,13 @@ public class Chase : BaseState
         Vector3 targetPos = new Vector3(_zombie.Target.position.x,
                                         transform.position.y,
                                         _zombie.Target.position.z);
-
-        transform.LookAt(_zombie.Target);
         
-        //transform.LookAt(targetPos);
-        transform.Translate(transform.forward * Time.deltaTime * GameSettings.Instance.zombieSpeed * 2);
+        transform.LookAt(targetPos);
+        Vector3 direction = (targetPos - transform.position).normalized;
+        Vector3 velocity = direction * GameSettings.Instance.zombieSpeed * 3;
+        _zombie.GetComponent<Rigidbody>().velocity = velocity;
 
+        Debug.DrawLine(transform.position, targetPos);
 
         //Distance between ENEMY & PLAYER
         var distance = Vector3.Distance(transform.position, targetPos);
@@ -59,7 +60,7 @@ public class Chase : BaseState
             if (isForwardBlocked())
             {
                 Debug.Log("FORWARD BLOCKED TRUE! CHASE");
-                transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRotation, 0.2f);
+                // transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRotation, 0.8f);
             }
             else
             {
@@ -67,14 +68,14 @@ public class Chase : BaseState
                 //transform.Translate(Vector3.forward * Time.deltaTime * GameSettings.Instance.zombieSpeed * 5);
 
                 Debug.Log("CHASING TARGET");
-                transform.Translate(transform.forward * Time.deltaTime * GameSettings.Instance.zombieSpeed * 5);
+                // transform.Translate(transform.forward * Time.deltaTime * GameSettings.Instance.zombieSpeed * 5);
                 animationManager.ChangeAnimationState(RUN);
             }
         }
+
         //Player is out of range in enemy vision
         else
         {
-            //transform.LookAt(targetPos);
             return typeof(Patrol);
         }
 
