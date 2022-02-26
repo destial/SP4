@@ -109,4 +109,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zombiePrefab: {fileID: 2172648625144424438, guid: c1520bf84f7d423469fdf54506a67870, type: 3}
-  spawnDelay: 3
+  spawnDelay: 10

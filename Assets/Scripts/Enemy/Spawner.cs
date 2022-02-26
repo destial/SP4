@@ -7,8 +7,12 @@ public class Spawner : MonoBehaviour
 
     private float nextSpawnTime;
 
+    public int playerLevel;
+
     [SerializeField] private GameObject zombiePrefab;
     [SerializeField] private float spawnDelay = 10;
+
+
 
    private void Update()
     {
@@ -26,7 +30,8 @@ public class Spawner : MonoBehaviour
 
     private bool ShouldSpawn()
     {
-        return Time.time > nextSpawnTime;
+
+        return Time.time > nextSpawnTime && LevelManager.instance.currentLevel == playerLevel;
     }    
 
 }
