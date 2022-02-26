@@ -12,7 +12,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private GameObject zombiePrefab;
     [SerializeField] private float spawnDelay = 10;
 
-
+    private List<GameObject> zombies = new List<GameObject>();
 
    private void Update()
     {
@@ -20,12 +20,18 @@ public class Spawner : MonoBehaviour
         {
             Spawn();
         }
+        if (LevelManager.instance.currentLevel != playerLevel) {
+            foreach (GameObject zombie in zombies) {
+                if (zombie != null) Destroy(zombie);
+            }
+        }
     }
 
     private void Spawn()
     {
         nextSpawnTime = Time.time + spawnDelay;
-        Instantiate(zombiePrefab, transform.position, transform.rotation);
+        GameObject zombie = Instantiate(zombiePrefab, transform.position, transform.rotation);
+        zombies.Add(zombie);
     }
 
     private bool ShouldSpawn()

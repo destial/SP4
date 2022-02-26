@@ -30,10 +30,8 @@ public class PlayerManager : Target
 
     private void Update()
     {
-        Debug.Log("Player's Health: " + health);
         if(health <= 0f)
         {
-            Debug.Log("Player is dead");
             SceneManager.LoadScene(2);
         }
     }

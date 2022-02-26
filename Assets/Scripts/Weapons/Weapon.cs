@@ -147,7 +147,6 @@ public class Weapon : MonoBehaviour
                     {
                         end = PlayerManager.instance.GetCamera().transform.position + PlayerManager.instance.GetCamera().transform.forward * weaponData.maxDistance;
                     }
-                    Debug.Log(end);
                     if (!weaponData.isScoping) {
                         lineRenderer.enabled = true;
                         lineRenderer.SetPosition(0, firingPoint.position);
@@ -165,12 +164,8 @@ public class Weapon : MonoBehaviour
     private void Update()
     {
         if (loading) {
-            //transform.localPosition = Vector3.Lerp(transform.localPosition, originalPos, 10 *Time.deltaTime);
-            //transform.localRotation = Quaternion.Lerp(transform.localRotation, originalRot, 10 * Time.deltaTime);
             loadingTime += Time.deltaTime;
             if (loadingTime >= 1f) {
-                //transform.localPosition = originalPos;
-                //transform.localRotation = originalRot;
                 loading = false;
                 loadingTime = 0f;
             }

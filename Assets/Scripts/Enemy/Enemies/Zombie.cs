@@ -6,12 +6,9 @@ using System;
 
 public class Zombie : MonoBehaviour
 {
-
     public Transform Target { get; private set; }
 
     public StateMachine StateMachine => GetComponent<StateMachine>();
-
-
 
     private void Start()
     {
@@ -29,12 +26,6 @@ public class Zombie : MonoBehaviour
 
         GetComponent<StateMachine>().setState(states);
     }
-
-    private void Update()
-    {
-        
-    }
-
     public void StartTask(IEnumerator func)
     {
         StartCoroutine(func);
