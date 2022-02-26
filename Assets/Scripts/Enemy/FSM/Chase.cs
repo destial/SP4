@@ -15,9 +15,6 @@ public class Chase : BaseState
     const string RUN = "Zombie_Run";
     const string ATTACK = "Zombie_Attack";
 
-
-
-
     public Chase(Zombie zombie) : base(zombie.gameObject)
     {
         _zombie = zombie;
