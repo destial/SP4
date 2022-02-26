@@ -11687,6 +11687,10 @@ PrefabInstance:
       propertyPath: throwableObject
       value: 
       objectReference: {fileID: 6645473976911985731, guid: b8559f3a4d96d3a49abd3de819d58506, type: 3}
+    - target: {fileID: 6479987010828211687, guid: 239acbf89460c4840abf74b1e7999fb2, type: 3}
+      propertyPath: zombieSpeed
+      value: 1.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 239acbf89460c4840abf74b1e7999fb2, type: 3}
 --- !u!1001 &457280497
@@ -11744,7 +11748,6 @@ GameObject:
   m_Component:
   - component: {fileID: 459331371}
   - component: {fileID: 459331372}
-  - component: {fileID: 459331373}
   m_Layer: 0
   m_Name: Entities
   m_TagString: Untagged
@@ -11808,22 +11811,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fe4f7c00dec7994087cab151a273e48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &459331373
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 459331370}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 185174e39461ecc4390adcfddf979cf2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  zombieSpeed: 1.5
-  aggroRadius: 5
-  attackRange: 1
-  zombieProjectilePrefab: {fileID: 0}
 --- !u!1 &460434615
 GameObject:
   m_ObjectHideFlags: 0
@@ -57503,22 +57490,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d106fb3486541c4291ef6bdbac0046f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2025489934
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2025489932}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 185174e39461ecc4390adcfddf979cf2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  zombieSpeed: 2
-  aggroRadius: 1.5
-  attackRange: 1
-  zombieProjectilePrefab: {fileID: 0}
 --- !u!1001 &2025721583
 PrefabInstance:
   m_ObjectHideFlags: 0

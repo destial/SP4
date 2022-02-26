@@ -14,7 +14,7 @@ public class Chase : BaseState
     //Animation Vars
     const string RUN = "Zombie_Run";
     const string ATTACK = "Zombie_Attack";
-
+    private float damageCooldown = 0f;
     public Chase(Zombie zombie) : base(zombie.gameObject)
     {
         _zombie = zombie;
@@ -47,10 +47,24 @@ public class Chase : BaseState
         //Distance between ENEMY & PLAYER
         var distance = Vector3.Distance(transform.position, targetPos);
 
+
+
         if(distance <= GameSettings.Instance.aggroRadius)
         {
             animationManager.ChangeAnimationState(ATTACK);
-            Debug.Log("ATTACKED PLAYER");
+            if(_zombie.Target.GetComponent<PlayerManager>() != null)
+            {
+                if (damageCooldown <= 0)
+                {
+                    PlayerDamage(5);
+                    damageCooldown = 2f;
+                }
+                else
+                {
+                    damageCooldown -= Time.deltaTime;
+                }
+                Debug.Log("ATTACKED PLAYER");
+            }
         }
         else if(distance <= 20f)
         {
@@ -80,6 +94,11 @@ public class Chase : BaseState
 
 
         return null;
+    }
+
+    private void PlayerDamage(float damage)
+    {
+        _zombie.Target.GetComponent<IDamageable>().TakeDamage(damage);
     }
 }
 

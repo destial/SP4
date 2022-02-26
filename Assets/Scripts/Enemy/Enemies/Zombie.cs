@@ -36,7 +36,10 @@ public class Zombie : MonoBehaviour
         
     }
 
-
+    public void StartTask(IEnumerator func)
+    {
+        StartCoroutine(func);
+    }
 
     public void setTarget(Transform target)
     {
