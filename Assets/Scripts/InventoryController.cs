@@ -14,9 +14,9 @@ public class InventoryController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        primaryWeapon.SetActive(true);
+        primaryWeapon.SetActive(false);
         secondaryWeapon.SetActive(false);
-        meleeHolder.SetActive(false);
+        meleeHolder.SetActive(true);
         lineRenderer = GetComponent<LineRenderer>();
         audioSource = GetComponent<AudioSource>();
     }

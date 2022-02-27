@@ -43,6 +43,7 @@ public class Keypad : MonoBehaviour
 
     void OnGUI()
     {
+        if (GameStateManager.Instance.CurrentGameState == GameState.Paused) return;
         int startX = (Screen.width / 2 - 160);
         int startY = (Screen.height / 2 - 227);
         if (!doorOpen)

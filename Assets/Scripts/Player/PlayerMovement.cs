@@ -59,12 +59,14 @@ public class PlayerMovement : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            characterController.enabled = false;
             return;
         }
         else
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+            characterController.enabled = true;
         }
 
         if (!disabled)
