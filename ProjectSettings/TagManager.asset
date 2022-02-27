@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Melee
+  - GameMusic
   layers:
   - Default
   - TransparentFX
