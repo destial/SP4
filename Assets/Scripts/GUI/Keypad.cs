@@ -50,7 +50,7 @@ public class Keypad : MonoBehaviour
             if (onTrigger)
             {
                 // Rect rect = PlayerManager.instance.GetComponentInChildren<Camera>().
-                GUI.Box(new Rect(Screen.width / 2 - 100, Screen.width / 2 - 12.5f, 200, 25), "Press 'F' to open keypad");
+                GUI.Box(new Rect(Screen.width / 2 - 100, Screen.height / 2, 200, 25), "Press 'F' to open keypad");
 
                 if (Input.GetKeyDown(KeyCode.F))
                 {

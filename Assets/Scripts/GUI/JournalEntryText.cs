@@ -32,7 +32,7 @@ public class JournalEntryText : MonoBehaviour
         if (onTrigger)
         {
             // Rect rect = PlayerManager.instance.GetComponentInChildren<Camera>().
-            GUI.Box(new Rect(800, 450, 300, 25), "Press 'F' to open Journal Entry #" + journalEntryNo);
+            GUI.Box(new Rect(Screen.width / 2 - 150, Screen.height / 2, 300, 25), "Press 'F' to open Journal Entry #" + journalEntryNo);
 
             if (Input.GetKeyDown(KeyCode.F))
             {
@@ -65,5 +65,6 @@ public class JournalEntryText : MonoBehaviour
         GameStateManager.Instance.SetState(GameState.Gameplay);
         Cursor.visible = false;
         PlayerMovement.instance.canMove = true;
+        onTrigger = true;
     }
 }
