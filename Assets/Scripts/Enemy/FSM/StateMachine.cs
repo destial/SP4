@@ -24,7 +24,7 @@ public class StateMachine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameStateManager.Instance.CurrentGameState == GameState.Paused) return;
+        if (GameStateManager.Instance.CurrentGameState != GameState.Gameplay) return;
         if (_availableStates == null) return;
 
         GetComponent<Animator>().enabled = GameStateManager.Instance.CurrentGameState != GameState.Paused;

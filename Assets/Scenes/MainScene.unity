@@ -8877,7 +8877,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 242748985759488953, guid: ef99963d63bcc5149928ba1eeeba8137, type: 3}
       propertyPath: spawnDelay
-      value: 5
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 242748985759488953, guid: ef99963d63bcc5149928ba1eeeba8137, type: 3}
       propertyPath: playerLevel
@@ -22606,7 +22606,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 242748985759488953, guid: ef99963d63bcc5149928ba1eeeba8137, type: 3}
       propertyPath: spawnDelay
-      value: 20
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 242748985759488953, guid: ef99963d63bcc5149928ba1eeeba8137, type: 3}
       propertyPath: playerLevel
@@ -27281,7 +27281,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 242748985759488953, guid: ef99963d63bcc5149928ba1eeeba8137, type: 3}
       propertyPath: spawnDelay
-      value: 5
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 242748985759488953, guid: ef99963d63bcc5149928ba1eeeba8137, type: 3}
       propertyPath: playerLevel
@@ -28604,7 +28604,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 242748985759488953, guid: ef99963d63bcc5149928ba1eeeba8137, type: 3}
       propertyPath: spawnDelay
-      value: 10
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 242748985759488953, guid: ef99963d63bcc5149928ba1eeeba8137, type: 3}
       propertyPath: playerLevel
@@ -33987,7 +33987,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 242748985759488953, guid: ef99963d63bcc5149928ba1eeeba8137, type: 3}
       propertyPath: spawnDelay
-      value: 8
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 242748985759488953, guid: ef99963d63bcc5149928ba1eeeba8137, type: 3}
       propertyPath: playerLevel
@@ -42147,7 +42147,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 242748985759488953, guid: ef99963d63bcc5149928ba1eeeba8137, type: 3}
       propertyPath: spawnDelay
-      value: 15
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 242748985759488953, guid: ef99963d63bcc5149928ba1eeeba8137, type: 3}
       propertyPath: playerLevel
@@ -45676,7 +45676,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 242748985759488953, guid: ef99963d63bcc5149928ba1eeeba8137, type: 3}
       propertyPath: spawnDelay
-      value: 10
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 242748985759488953, guid: ef99963d63bcc5149928ba1eeeba8137, type: 3}
       propertyPath: playerLevel
@@ -63186,7 +63186,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 242748985759488953, guid: ef99963d63bcc5149928ba1eeeba8137, type: 3}
       propertyPath: spawnDelay
-      value: 5
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 242748985759488953, guid: ef99963d63bcc5149928ba1eeeba8137, type: 3}
       propertyPath: playerLevel

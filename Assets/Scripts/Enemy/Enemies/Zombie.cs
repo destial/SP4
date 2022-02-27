@@ -15,6 +15,11 @@ public class Zombie : MonoBehaviour
         InitializeStateMachine();
     }
 
+    private void Update()
+    {
+        GetComponent<Animator>().enabled = GameStateManager.Instance.CurrentGameState == GameState.Gameplay;
+    }
+
     public void InitializeStateMachine()
     {
         var states = new Dictionary<Type, BaseState>()
