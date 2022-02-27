@@ -21,14 +21,9 @@ public class JournalEntryText : MonoBehaviour
         onTrigger = false;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnGUI()
     {
+        if (GameStateManager.Instance.CurrentGameState == GameState.Paused) return;
         if (onTrigger)
         {
             // Rect rect = PlayerManager.instance.GetComponentInChildren<Camera>().
